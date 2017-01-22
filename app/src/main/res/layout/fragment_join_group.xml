@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.bental.studentsapp2.Fragments.JoinGroupFragment"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="Group Key"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView2"
+            android:layout_weight="1" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:id="@+id/etGroupKey"
+            android:layout_weight="1"
+            android:inputType="text" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom">
+
+        <ImageView
+            android:src="@drawable/ic_cancel_red_24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="54dp"
+            android:id="@+id/btnCancel"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:src="@drawable/check_circle"
+            android:layout_width="wrap_content"
+            android:layout_height="54dp"
+            android:id="@+id/btnOk"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+
+</LinearLayout>

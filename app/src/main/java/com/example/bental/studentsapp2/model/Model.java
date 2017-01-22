@@ -1,6 +1,10 @@
 package com.example.bental.studentsapp2.model;
 
-import com.example.bental.studentsapp2.R;
+import com.example.bental.studentsapp2.*;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -11,37 +15,50 @@ import java.util.List;
  */
 
 public class Model {
-    private ArrayList<Student> studentList = new ArrayList<Student>();
-    final private static Model instance = new Model();
-    private Model(){
-        for (int i =0; i<10; i++) {
-            studentList.add(new Student("aaa_" + i, "bbbbb_" + i, String.valueOf(i), "0344444",false, R.mipmap.ic_launcher,
-                    new CustomSimpleDate().createDate(2016,12,30), new CustomSimpleDate().createTime(22,30,10)));
-        }
-    }
+    private static final Model instance = new Model();
+
     public static Model instance(){
         return instance;
     }
-    public ArrayList<Student> getAllStudents(){
-        return studentList;
+
+    private ModelFirebase modelFirebase = new ModelFirebase();
+    private Model(){
+    }
+    public void addShoppingItem(ShoppingItem shoppingItem, int groupId){
+        //modelSql.addStudent(student);
+        modelFirebase.addShoppingItem(shoppingItem, groupId);
     }
 
-    public void addStudent(Student student){
-        student.setImage(R.mipmap.ic_launcher);
-        studentList.add(student);
+    public void addUserToGroup(String userId, String groupId){
+        modelFirebase.addUserToGroup(userId, groupId);
+        //modelFirebase.addShoppingItem(shoppingItem, groupId);
     }
 
-    public void editStudent(int index, Student student){
-        studentList.get(index).setChecked(student.isChecked());
-        studentList.get(index).setName(student.getName());
-        studentList.get(index).setAddress(student.getAddress());
-        studentList.get(index).setId(student.getId());
-        studentList.get(index).setPhone(student.getPhone());
-        studentList.get(index).setBirthDate(student.getBirthDate());
-        studentList.get(index).setBirthTime(student.getBirthTime());
+    public void addNewUser(User user){
+        //modelSql.addStudent(student);
+        modelFirebase.addNewUser(user);
     }
 
-    public void deleteStudent(Student student){
-        studentList.remove(student);
+    public void createNewGroup(Group group){
+        //modelSql.addStudent(student);
+        modelFirebase.addNewGroup(group);
     }
+
+    public void getGroupsForUser(String userId, GetGroupsForUserListener listener){
+        modelFirebase.getGroupsForUser(userId,listener);
+    }
+
+    public interface GetShoppingItemListener {
+        void onComplete(ShoppingItem shoppingItem);
+    }
+
+    public interface GetShoppingItemsByGroupIdListener{
+        void onComplete(List<ShoppingItem> shoppingItems);
+    }
+
+    public interface GetGroupsForUserListener{
+        void onComplete(List<Group> groups);
+    }
+
+
 }

@@ -10,12 +10,6 @@
     android:orientation="vertical"
     tools:context="com.example.bental.studentsapp2.Fragments.AddEditFragment">
 
-    <ImageView
-        android:src="@mipmap/ic_launcher"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ivEditStudentPicture" />
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -27,14 +21,14 @@
             android:layout_height="wrap_content"
             android:id="@+id/textView"
             android:layout_weight="1"
-            android:labelFor="@+id/etName" />
+            android:labelFor="@+id/etPasswordConfirm" />
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="10"
-            android:id="@+id/etName"
+            android:id="@+id/etPasswordConfirm"
             android:layout_weight="1" />
     </LinearLayout>
 
@@ -44,7 +38,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:text="Id:"
+            android:text="Quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textView2"
@@ -55,100 +49,35 @@
             android:layout_height="wrap_content"
             android:inputType="number"
             android:ems="10"
-            android:id="@+id/etId"
+            android:id="@+id/etQuantity"
             android:layout_weight="1" />
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="284dp"
+        android:gravity="center"
+        android:weightSum="1"
+        android:id="@+id/btnAddPicture">
 
-        <TextView
-            android:text="Phone"
+<!--        <ImageView
+            android:src="@drawable/ic_camera_black_48dp"
+            android:layout_width="172dp"
+            android:layout_height="78dp"
+            android:id="@+id/imageView" />-->
+        <ImageView
+            android:src="@drawable/camera"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView3"
-            android:layout_weight="1" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="phone"
-            android:ems="10"
-            android:id="@+id/etPhone"
-            android:layout_weight="1" />
+            android:layout_height="189dp"
+            android:id="@+id/imageView8"
+            android:layout_weight="0.30" />
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <!--date of birth-->
 
-        <TextView
-            android:text="Address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView4"
-            android:layout_weight="1" />
+    <!--time of birth -->
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/etAddress"
-            android:layout_weight="1" />
-    </LinearLayout>
-<!--date of birth-->
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:text="Date of Birth:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvBirthDate"
-            android:layout_weight="1" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="date"
-            android:ems="10"
-            android:id="@+id/etBirthDate"
-            android:layout_weight="1" />
-    </LinearLayout>
-<!--time of birth -->
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:text="Time of Birth:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvBirthTime"
-            android:layout_weight="1" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="date|time"
-            android:ems="10"
-            android:id="@+id/etBirthTime"
-            android:layout_weight="1" />
-    </LinearLayout>
-
-
-    <CheckBox
-        android:text="Checked"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/chkbxEditChecked" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -156,25 +85,18 @@
         android:layout_height="match_parent"
         android:gravity="bottom">
 
-        <Button
-            android:text="Cancel"
+        <ImageView
+            android:src="@drawable/ic_cancel_red_24dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="54dp"
             android:id="@+id/btnCancel"
             android:layout_weight="1" />
 
-        <Button
-            android:text="Delete"
+        <ImageView
+            android:src="@drawable/check_circle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnDelete"
-            android:layout_weight="1" />
-
-        <Button
-            android:text="Save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnSave"
+            android:layout_height="54dp"
+            android:id="@+id/btnAdd"
             android:layout_weight="1" />
     </LinearLayout>
 

@@ -2,23 +2,16 @@ package com.example.bental.studentsapp2.Fragments;
 
 
 import android.app.Fragment;
-import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TimePicker;
+import android.widget.ImageView;
 
-import com.example.bental.studentsapp2.DateDialog.DateDialogFragment;
 import com.example.bental.studentsapp2.DialogCreator;
 import com.example.bental.studentsapp2.R;
-import com.example.bental.studentsapp2.model.CustomSimpleDate;
-import com.example.bental.studentsapp2.model.Model;
 import com.example.bental.studentsapp2.model.Student;
 
 
@@ -27,14 +20,8 @@ import com.example.bental.studentsapp2.model.Student;
  */
 public class AddEditFragment extends Fragment {
     EditText etName;
-    EditText etId;
-    EditText etPhone;
-    EditText etAddress;
-    CheckBox chkbxCheck;
-    EditText etBirthDate;
-    EditText etBirthTime;
-    CustomSimpleDate tempBirthDate;
-    CustomSimpleDate tempBirthTime;
+    EditText etQuantity;
+
     Student currentStudent;
 
 
@@ -49,26 +36,21 @@ public class AddEditFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_add_edit, container, false);
 
 
-        Button btnSave = (Button) view.findViewById(R.id.btnSave);
-        Button btnDelete = (Button) view.findViewById(R.id.btnDelete);
-        Button btnCancel = (Button) view.findViewById(R.id.btnCancel);
+        ImageView btnSave = (ImageView) view.findViewById(R.id.btnAdd);
+        ImageView btnCancel = (ImageView) view.findViewById(R.id.btnCancel);
 
 
-        etId = (EditText) view.findViewById(R.id.etId);
-        etName = (EditText) view.findViewById(R.id.etName);
-        etPhone = (EditText) view.findViewById(R.id.etPhone);
-        etAddress = (EditText) view.findViewById(R.id.etAddress);
-        chkbxCheck = (CheckBox) view.findViewById(R.id.chkbxEditChecked);
-        etBirthDate = (EditText) view.findViewById(R.id.etBirthDate);
-        etBirthTime = (EditText) view.findViewById(R.id.etBirthTime);
-        final int currentStudentIndex = this.getArguments().getInt(getString(R.string.current_student_index));
-        if (currentStudentIndex != -1) {//edit mode
+        etQuantity = (EditText) view.findViewById(R.id.etQuantity);
+        etName = (EditText) view.findViewById(R.id.etPasswordConfirm);
+
+        final int currentProductIndex = this.getArguments().getInt(getString(R.string.current_product_index));
+        if (currentProductIndex != -1) {//edit mode
             getActivity().setTitle("Edit Student");
-            prepareViewsForEditMode(currentStudentIndex, btnDelete);
+            //prepareViewsForEditMode(currentProductIndex, btnDelete);
         } else {//add mode
             getActivity().setTitle("Add Student");
             btnCancel.setVisibility(View.INVISIBLE);
-            btnDelete.setVisibility(View.INVISIBLE);
+            //btnDelete.setVisibility(View.INVISIBLE);
         }
 
 
@@ -78,7 +60,7 @@ public class AddEditFragment extends Fragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onSave(currentStudentIndex);
+                onSave(currentProductIndex);
             }
         });
 
@@ -95,30 +77,27 @@ public class AddEditFragment extends Fragment {
     private void onSave(final int currentStudentIndex) {
         String dialogMessage = "";
         String dialogTitle = "";
-        Student student = new Student(
-                etAddress.getText().toString(),
+/*        ShoppingItem shoppingItem = new ShoppingItem(
                 etName.getText().toString(),
-                etId.getText().toString(),
-                etPhone.getText().toString(),
-                chkbxCheck.isChecked(),
+                etQuantity.getText().toString(),
                 1,
                 tempBirthDate == null ? currentStudent.getBirthDate() : tempBirthDate,
                 tempBirthTime == null ? currentStudent.getBirthTime() : tempBirthTime
-        );
+        );*/
         if (currentStudentIndex != -1) {
             dialogMessage = "Student details were successfully updated.";
             dialogTitle = "Edit Student";
 
-            Model.instance().editStudent(currentStudentIndex, student);
+            //Model.instance().editStudent(currentStudentIndex, student);
         } else {
             dialogMessage = "Student was successfully added.";
             dialogTitle = "Add Student";
-            Model.instance().addStudent(student);
+            //Model.instance().addStudent(student);
         }
 
         Runnable callback = new Runnable() {
             public void run() {
-                getActivity().sendBroadcast(new Intent(getString(R.string.show_student_list)));
+                //getActivity().sendBroadcast(new Intent(getString(R.string.show_student_list)));
             }
         };
         DialogCreator.createDialog(getActivity(), dialogMessage, dialogTitle, callback);
@@ -126,31 +105,27 @@ public class AddEditFragment extends Fragment {
 
     private void prepareViewsForEditMode(int currentStudentIndex, Button btnDelete) {
 
-        currentStudent = Model.instance().getAllStudents().get(currentStudentIndex);
-        etName.setText(currentStudent.getName());
-        etId.setText(String.valueOf(currentStudent.getId()));
-        etPhone.setText(String.valueOf(currentStudent.getPhone()));
-        etAddress.setText(currentStudent.getAddress());
-        chkbxCheck.setChecked(currentStudent.isChecked());
-        etBirthDate.setText(currentStudent.getBirthDate().toDateString());
-        etBirthTime.setText(currentStudent.getBirthTime().toTimeString());
+/*        currentStudent = Model.instance().getAllStudents().get(currentStudentIndex);
+        etName.setText(currentStudent.getName());*/
+        //etId.setText(String.valueOf(currentStudent.getId()));
 
-        btnDelete.setOnClickListener(new View.OnClickListener() {
+
+/*        btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Model.instance().deleteStudent(currentStudent);
                 Runnable callback = new Runnable() {
                     public void run() {
-                        getActivity().sendBroadcast(new Intent(getString(R.string.show_student_list)));
+                      //  getActivity().sendBroadcast(new Intent(getString(R.string.show_student_list)));
                     }
                 };
                 DialogCreator.createDialog(getActivity(), "Student was successfully deleted.", "Edit Student", callback);
             }
-        });
+        });*/
 
-        etBirthTime.setOnTouchListener(new View.OnTouchListener() {
+        //etBirthTime.setOnTouchListener(new View.OnTouchListener() {
 
-            @Override
+/*            @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     if (tempBirthTime == null) {
@@ -170,9 +145,9 @@ public class AddEditFragment extends Fragment {
                 }
                 return true;
             }
-        });
+        });*/
 
-        etBirthDate.setOnTouchListener(new View.OnTouchListener() {
+/*        etBirthDate.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
@@ -191,6 +166,6 @@ public class AddEditFragment extends Fragment {
                 }
                 return true;
             }
-        });
+        });*/
     }
 }

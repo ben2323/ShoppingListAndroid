@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.example.bental.studentsapp2.CustomBaseAdapter;
+import com.example.bental.studentsapp2.adapters.CustomBaseAdapter;
 import com.example.bental.studentsapp2.R;
 import com.example.bental.studentsapp2.model.Model;
 
@@ -20,10 +20,10 @@ import com.example.bental.studentsapp2.model.Model;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class StudentListFragment extends Fragment {
+public class GroupListFragment extends Fragment {
 
 
-    public StudentListFragment() {
+    public GroupListFragment() {
         // Required empty public constructor
     }
 
@@ -34,9 +34,9 @@ public class StudentListFragment extends Fragment {
         getActivity().setTitle("Student List");
         setHasOptionsMenu(true);
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_student_list, container, false);
-        ListView listview = (ListView) view.findViewById(R.id.listViewStudents);
-        listview.setAdapter(new CustomBaseAdapter(getActivity(), Model.instance().getAllStudents()));
+        View view = inflater.inflate(R.layout.fragment_group_list, container, false);
+        ListView listview = (ListView) view.findViewById(R.id.listViewGroups);
+        //listview.setAdapter(new CustomBaseAdapter(getActivity(), Model.instance().getAllStudents()));
         return view;
     }
     @Override
@@ -47,13 +47,12 @@ public class StudentListFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+/*        switch (item.getItemId()) {
             case R.id.btnAdd:
                 Intent intent = new Intent(getActivity().getString(R.string.show_add_student));
                 getActivity().sendBroadcast(intent);
                 break;
-        }
+        }*/
         return true;
     }
-
 }

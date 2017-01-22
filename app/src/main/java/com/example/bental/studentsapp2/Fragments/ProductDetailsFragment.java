@@ -21,11 +21,11 @@ import com.example.bental.studentsapp2.model.Student;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class StudentDetailsFragment extends Fragment {
+public class ProductDetailsFragment extends Fragment {
 Student currentStudent;
     int currentStudentIndex;
 
-    public StudentDetailsFragment() {
+    public ProductDetailsFragment() {
         // Required empty public constructor
     }
     private void fillTextViews(View view) {
@@ -51,29 +51,31 @@ Student currentStudent;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        getActivity().setTitle("Student Details");
+        View view = inflater.inflate(R.layout.fragment_product_details, container, false);
+        return view;
+/*        getActivity().setTitle("Student Details");
         currentStudentIndex = getArguments().getInt(getString(R.string.current_student_index));
         currentStudent = Model.instance().getAllStudents().get(currentStudentIndex);
-        View view = inflater.inflate(R.layout.fragment_student_details, container, false);
+
         fillTextViews(view);
         setHasOptionsMenu(true);
-        return view;
+        */
     }
     @Override
     public void  onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.student_details_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
+/*        inflater.inflate(R.menu.student_details_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);*/
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+/*        switch (item.getItemId()) {
             case R.id.btnEdit:
                 Intent intent = new Intent(getActivity().getString(R.string.show_edit_student));
                 intent.putExtra(getString(R.string.current_student_index),currentStudentIndex);
                 getActivity().sendBroadcast(intent);
                 break;
-        }
+        }*/
         return true;
     }
 
