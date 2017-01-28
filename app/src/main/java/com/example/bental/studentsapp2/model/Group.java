@@ -7,18 +7,17 @@ import java.util.List;
  */
 
 public class Group {
-/*    int groupId;*/
+    String groupId;
     String groupName;
-/*    String groupKey;
-    String groupImageUrl;*/
+    String groupImageUrl;
 
-/*    public int getGroupId() {
+    public String getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(int groupId) {
+    public void setGroupId(String groupId) {
         this.groupId = groupId;
-    }*/
+    }
 
     public String getGroupName() {
         return groupName;

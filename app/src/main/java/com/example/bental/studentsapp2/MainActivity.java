@@ -16,14 +16,17 @@ import com.example.bental.studentsapp2.Fragments.GroupListFragment;
 import com.example.bental.studentsapp2.Fragments.JoinGroupFragment;
 import com.example.bental.studentsapp2.Fragments.LoginFragment;
 import com.example.bental.studentsapp2.Fragments.ProductDetailsFragment;
+import com.example.bental.studentsapp2.Fragments.ProductListFragment;
 import com.example.bental.studentsapp2.Fragments.RegisterNewUserFragment;
 import com.example.bental.studentsapp2.Fragments.UserGroupsFragment;
+import com.example.bental.studentsapp2.model.Model;
+import com.example.bental.studentsapp2.model.ModelFirebase;
 
 public class MainActivity extends Activity {
 private BroadcastReceiver mBroadcastReceiver;
-    private static String ADD_EDIT_STUDENT = "addEditStudentFragment";
+    private static String ADD_EDIT_PRODUCT = "addEditProductFragment";
     //private static String EDIT_STUDENT = "editStudentFragment";
-    private static String STUDENT_LIST = "GroupListFragment";
+    private static String PRODUCT_LIST = "productListFragment";
     private static String CREATE_NEW_GROUP = "createNewGrop";
     private static String REGISTER_NEW_USER = "registerNewUser";
     private static String LOGIN = "login";
@@ -41,11 +44,8 @@ private BroadcastReceiver mBroadcastReceiver;
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (intent.getAction().equals(getString(R.string.default_web_client_id))) {
-
                     onShowStudentDetails(intent);
-
                 } else if (intent.getAction().equals(getString(R.string.show_login))) {
-
                     onShowLogin();
                 } else if (intent.getAction().equals(getString(R.string.show_register))) {
                     onShowRegisterNewUser();
@@ -55,10 +55,16 @@ private BroadcastReceiver mBroadcastReceiver;
                     onShowCreateNewGroup();
                 } else if (intent.getAction().equals(getString(R.string.show_join_group))) {
                     onShowAddUserToGroup();
+                } else if (intent.getAction().equals(getString(R.string.show_group))) {
+                    onShowGroupProductList(intent);
+                }else if (intent.getAction().equals(getString(R.string.show_add_shopping_item))) {
+                    onShowAddShoppingItem(intent);
                 }
             }
         };
         IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(getString(R.string.show_group));
+        intentFilter.addAction(getString(R.string.show_add_shopping_item));
        // intentFilter.addAction(getString(R.string.show_add_student));
         intentFilter.addAction(getString(R.string.show_user_groups));
         intentFilter.addAction(getString(R.string.show_login));
@@ -66,11 +72,9 @@ private BroadcastReceiver mBroadcastReceiver;
         intentFilter.addAction(getString(R.string.show_create_group));
         this.registerReceiver(mBroadcastReceiver, intentFilter);
 
-
     }
     private void onShowAddUserToGroup() {
         FragmentManager fm = getFragmentManager();
-
         JoinGroupFragment fragment = new JoinGroupFragment();
         FragmentTransaction ftr = getFragmentManager().beginTransaction();
         ftr.replace(R.id.mainContainer, fragment, LOGIN);
@@ -79,7 +83,6 @@ private BroadcastReceiver mBroadcastReceiver;
 
     private void onShowLogin() {
         FragmentManager fm = getFragmentManager();
-
         LoginFragment fragment = new LoginFragment();
         FragmentTransaction ftr = getFragmentManager().beginTransaction();
         ftr.replace(R.id.mainContainer, fragment, LOGIN);
@@ -96,8 +99,6 @@ private BroadcastReceiver mBroadcastReceiver;
         ftr.commit();
 
     }
-
-
 
     private void onShowCreateNewGroup() {
         FragmentManager fm = getFragmentManager();
@@ -128,19 +129,14 @@ private BroadcastReceiver mBroadcastReceiver;
 
     }
 
-    private void onShowStudentList() {
-        FragmentManager fm = getFragmentManager();
-
-        for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
-            //clear all fragments from stack so the last fragment on stack will be the student list
-            //we do that so when pressing the back button application will end
-            fm.popBackStack();
-        }
-        GroupListFragment fragment = new GroupListFragment();
+    private void onShowGroupProductList(Intent intent) {
+        ProductListFragment fragment = new ProductListFragment();
+        String groupId = intent.getStringExtra(getString(R.string.group_id));
+        fragment.setGroupId(groupId);
         FragmentTransaction ftr = getFragmentManager().beginTransaction();
-        ftr.replace(R.id.mainContainer, fragment, STUDENT_LIST);
+        ftr.replace(R.id.mainContainer, fragment, PRODUCT_LIST);
+        ftr.addToBackStack(null);
         ftr.commit();
-
     }
 
     private void onShowStudentDetails(Intent intent) {
@@ -158,7 +154,14 @@ private BroadcastReceiver mBroadcastReceiver;
 
     }
 
-    private void onShowAddStudent() {
+    private void onShowAddShoppingItem(Intent intent) {
+        AddEditFragment fragment = new AddEditFragment();
+        String groupId = intent.getStringExtra(getString(R.string.group_id));
+        fragment.setGroupId(groupId);
+        FragmentTransaction ftr = getFragmentManager().beginTransaction();
+        ftr.replace(R.id.mainContainer, fragment, ADD_EDIT_PRODUCT);
+        ftr.addToBackStack(null);
+        ftr.commit();
     }
 
     private void onShowEditStudent(Intent intent) {

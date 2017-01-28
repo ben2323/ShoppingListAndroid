@@ -21,15 +21,7 @@ import java.util.List;
  */
 
 public class ModelFirebase {
-    public void addShoppingItem(ShoppingItem item, int groupId){
-        //student.setImage(R.mipmap.ic_launcher);
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("groups").child(String.valueOf(groupId))
-                .child("shoppingItems");
-        myRef.setValue(item);
-    }
-
-    public void getGroupsForUser(String userId, final Model.GetGroupsForUserListener listener){
+    public void getGroupsForUser(String userId, final Model.GetGroupsForUserListener listener) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("users").child(String.valueOf(userId))
                 .child("registeredGroups");
@@ -38,18 +30,20 @@ public class ModelFirebase {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 List<String> userGroupKeys = new ArrayList<String>();
-//getting keys only
+                //getting keys only
                 for (DataSnapshot stSnapshot : dataSnapshot.getChildren()) {
-                    userGroupKeys.add("-" + stSnapshot.getKey());
+                    userGroupKeys.add(/*"-" + */stSnapshot.getKey());
                 }
                 //getting the whole group object
                 groupsRef.orderByKey().startAt(userGroupKeys.get(0))
-                        .endAt(userGroupKeys.get(userGroupKeys.size()-1)).addValueEventListener(new ValueEventListener() {
+                        .endAt(userGroupKeys.get(userGroupKeys.size() - 1)).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         List<Group> groups = new ArrayList<Group>();
                         for (DataSnapshot stSnapshot : dataSnapshot.getChildren()) {
-                            groups.add(stSnapshot.getValue(Group.class));
+                        Group group = stSnapshot.getValue(Group.class);
+                            group.setGroupId(stSnapshot.getKey());
+                            groups.add(group);
                         }
                         listener.onComplete(groups);
                     }
@@ -59,9 +53,8 @@ public class ModelFirebase {
 
                     }
                 });
-
-
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 listener.onComplete(null);
@@ -69,20 +62,31 @@ public class ModelFirebase {
         });
     }
 
-    public void getShoppingItemsByGroupId(int groupId, final Model.GetShoppingItemsByGroupIdListener listener){
+    public void getShoppingItemsByGroupId(String groupId, final Model.GetShoppingItemsByGroupIdListener listener) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("groups").child(String.valueOf(groupId))
-                .child("shoppingItems");
+        DatabaseReference myRef = database.getReference("shoppingItems").child(groupId);
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                List<ShoppingItem> shoppingItems = new ArrayList<ShoppingItem>();
+            public void onDataChange(final DataSnapshot dataSnapshot) {
+                final List<ShoppingItem> shoppingItems = new ArrayList<ShoppingItem>();
                 for (DataSnapshot stSnapshot : dataSnapshot.getChildren()) {
-                    ShoppingItem shoppingItem = stSnapshot.getValue(ShoppingItem.class);
-                    shoppingItems.add(shoppingItem);
+
+                    final ShoppingItem shoppingItem = stSnapshot.getValue(ShoppingItem.class);
+                    shoppingItem.setItemId(stSnapshot.getKey());
+                    getUserById(shoppingItem.getAddedByUserId(), new Model.GetUserByIdListener() {
+                        @Override
+                        public void onComplete(User user) {
+                            shoppingItem.setAddedByUser(user);
+                            shoppingItems.add(shoppingItem);
+                            if (shoppingItems.size()==dataSnapshot.getChildrenCount()) {
+                                listener.onComplete(shoppingItems);
+                            }
+                        }
+                    });
                 }
-                listener.onComplete(shoppingItems);
+
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 listener.onComplete(null);
@@ -90,7 +94,7 @@ public class ModelFirebase {
         });
     }
 
-    public void addUserToGroup(String userId, String groupId){
+    public void addUserToGroup(String userId, String groupId) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("users").child(userId)
                 .child("registeredGroups").child(groupId);
@@ -107,18 +111,38 @@ public class ModelFirebase {
         });
     }
 
-    public void addNewGroup(Group group){
+    public void addNewGroup(Group group) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("groups");
         myRef.push().setValue(group);
     }
 
-    public void addNewUser(User user){
-
-
+    public void addNewUser(User user) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("users").child(user.getUserId());
         myRef.setValue(user);
+    }
+
+    public void addShoppingItem(ShoppingItem shoppingItem, String groupId) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("shoppingItems").child(groupId);
+        myRef.push().setValue(shoppingItem);
+    }
+
+    private void getUserById(String userUid, final Model.GetUserByIdListener listener){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("users").child(String.valueOf(userUid));
+                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        listener.onComplete(dataSnapshot.getValue(User.class));
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
     }
 
 }

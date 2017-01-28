@@ -12,13 +12,18 @@ import android.widget.ImageView;
 
 import com.example.bental.studentsapp2.DialogCreator;
 import com.example.bental.studentsapp2.R;
+import com.example.bental.studentsapp2.model.Model;
+import com.example.bental.studentsapp2.model.ShoppingItem;
 import com.example.bental.studentsapp2.model.Student;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddEditFragment extends Fragment {
+public class AddEditFragment extends BaseFragment {
+    String groupId;
+
     EditText etName;
     EditText etQuantity;
 
@@ -43,24 +48,17 @@ public class AddEditFragment extends Fragment {
         etQuantity = (EditText) view.findViewById(R.id.etQuantity);
         etName = (EditText) view.findViewById(R.id.etPasswordConfirm);
 
-        final int currentProductIndex = this.getArguments().getInt(getString(R.string.current_product_index));
-        if (currentProductIndex != -1) {//edit mode
-            getActivity().setTitle("Edit Student");
-            //prepareViewsForEditMode(currentProductIndex, btnDelete);
-        } else {//add mode
-            getActivity().setTitle("Add Student");
-            btnCancel.setVisibility(View.INVISIBLE);
-            //btnDelete.setVisibility(View.INVISIBLE);
-        }
-
-
-        //onClick listeners
-
-
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onSave(currentProductIndex);
+                ShoppingItem item = new ShoppingItem();
+                item.setName(etName.getText().toString());
+                item.setQuantity(Integer.parseInt(etQuantity.getText().toString()));
+                item.setAddedByUserId(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                item.setAddedDate(getCurrentDate());
+                //item.setImageUrl();
+                Model.instance().addShoppingItem(item,groupId);
+                getActivity().onBackPressed();
             }
         });
 
@@ -70,6 +68,21 @@ public class AddEditFragment extends Fragment {
                 getActivity().onBackPressed();
             }
         });
+/*        final int currentProductIndex = this.getArguments().getInt(getString(R.string.current_product_index));
+        if (currentProductIndex != -1) {//edit mode
+            getActivity().setTitle("Edit Student");
+            //prepareViewsForEditMode(currentProductIndex, btnDelete);
+        } else {//add mode
+            getActivity().setTitle("Add Student");
+            btnCancel.setVisibility(View.INVISIBLE);
+            //btnDelete.setVisibility(View.INVISIBLE);
+        }*/
+
+
+        //onClick listeners
+
+
+
 
         return view;
     }
@@ -167,5 +180,13 @@ public class AddEditFragment extends Fragment {
                 return true;
             }
         });*/
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 }

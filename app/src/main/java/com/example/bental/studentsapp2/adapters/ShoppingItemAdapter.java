@@ -8,7 +8,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.bental.studentsapp2.R;
+import com.example.bental.studentsapp2.model.Model;
 import com.example.bental.studentsapp2.model.ShoppingItem;
+import com.example.bental.studentsapp2.model.User;
 
 import java.util.ArrayList;
 
@@ -27,13 +29,16 @@ public class ShoppingItemAdapter extends CustomBaseAdapter<ShoppingItem> {
         final int index = i;
         View vi = view;
         if (vi == null) {
-            vi = inflater.inflate(R.layout.group_list_item, null);
+            vi = inflater.inflate(R.layout.product_list_item, null);
         }
-        TextView productName = (TextView) vi.findViewById(R.id.groupName);
+        TextView productName = (TextView) vi.findViewById(R.id.productName);
         TextView addOnDate = (TextView) vi.findViewById(R.id.addedOnDate);
-        ImageView iv = (ImageView) vi.findViewById(R.id.groupImage);
+        final TextView addedBy = (TextView) vi.findViewById(R.id.addedBy);
+        ImageView productImage = (ImageView) vi.findViewById(R.id.productImage);
         productName.setText(list.get(i).getName());
+        addedBy.setText(list.get(i).getAddedByUser().getFirstName() + " " + list.get(i).getAddedByUser().getLastName());
         addOnDate.setText(list.get(i).getAddedDate().toString());
+
         //todo set image url
         //iv.setImageResource(list.get(i).getImageUrl());
 

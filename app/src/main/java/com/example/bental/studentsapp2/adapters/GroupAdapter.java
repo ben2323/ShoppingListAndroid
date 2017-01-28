@@ -38,9 +38,9 @@ public class GroupAdapter extends CustomBaseAdapter<Group> {
         vi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //allow back button
+
                 Intent intent = new Intent(context.getString(R.string.show_group));
-                intent.putExtra(context.getString(R.string.show_group), index);
+                intent.putExtra(context.getString(R.string.group_id), list.get(index).getGroupId());
                 context.sendBroadcast(intent);
 
             }

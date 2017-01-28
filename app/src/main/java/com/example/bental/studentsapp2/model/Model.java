@@ -24,9 +24,12 @@ public class Model {
     private ModelFirebase modelFirebase = new ModelFirebase();
     private Model(){
     }
-    public void addShoppingItem(ShoppingItem shoppingItem, int groupId){
-        //modelSql.addStudent(student);
+    public void addShoppingItem(ShoppingItem shoppingItem, String groupId){
         modelFirebase.addShoppingItem(shoppingItem, groupId);
+    }
+
+    public void getShoppingItemsByGroupId(String groupId, GetShoppingItemsByGroupIdListener listener){
+        modelFirebase.getShoppingItemsByGroupId(groupId,listener);
     }
 
     public void addUserToGroup(String userId, String groupId){
@@ -48,6 +51,10 @@ public class Model {
         modelFirebase.getGroupsForUser(userId,listener);
     }
 
+    public void getUserById(String userUid, final Model.GetUserByIdListener listener){
+        //modelFirebase.getUserById(userUid,listener);
+    }
+
     public interface GetShoppingItemListener {
         void onComplete(ShoppingItem shoppingItem);
     }
@@ -58,6 +65,10 @@ public class Model {
 
     public interface GetGroupsForUserListener{
         void onComplete(List<Group> groups);
+    }
+
+    public interface GetUserByIdListener{
+        void onComplete(User user);
     }
 
 

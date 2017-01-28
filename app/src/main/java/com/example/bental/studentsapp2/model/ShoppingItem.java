@@ -7,21 +7,25 @@ import java.util.Date;
  */
 
 public class ShoppingItem {
-    int itemId;
+    String itemId;
     String name;
     int quantity;
     String imageUrl;
-    User addedBy;
-    User removedBy;
-    RemoveReasons removeReason;
-    Date addedDate;
-    Date removedDate;
+    String addedByUserId;
+    User addedByUser;
 
-    public int getItemId() {
+
+
+    String removedBy;
+    RemoveReasons removeReason;
+    String addedDate;
+    String removedDate;
+
+    public String getItemId() {
         return itemId;
     }
 
-    public void setItemId(int itemId) {
+    public void setItemId(String itemId) {
         this.itemId = itemId;
     }
 
@@ -49,19 +53,19 @@ public class ShoppingItem {
         this.imageUrl = imageUrl;
     }
 
-    public User getAddedBy() {
-        return addedBy;
+    public String getAddedByUserId() {
+        return addedByUserId;
     }
 
-    public void setAddedBy(User addedBy) {
-        this.addedBy = addedBy;
+    public void setAddedByUserId(String addedByUserId) {
+        this.addedByUserId = addedByUserId;
     }
 
-    public User getRemovedBy() {
+    public String getRemovedBy() {
         return removedBy;
     }
 
-    public void setRemovedBy(User removedBy) {
+    public void setRemovedBy(String removedBy) {
         this.removedBy = removedBy;
     }
 
@@ -73,19 +77,27 @@ public class ShoppingItem {
         this.removeReason = removeReason;
     }
 
-    public Date getAddedDate() {
+    public String getAddedDate() {
         return addedDate;
     }
 
-    public void setAddedDate(Date addedDate) {
+    public void setAddedDate(String addedDate) {
         this.addedDate = addedDate;
     }
 
-    public Date getRemovedDate() {
+    public String getRemovedDate() {
         return removedDate;
     }
 
-    public void setRemovedDate(Date removedDate) {
+    public void setRemovedDate(String removedDate) {
         this.removedDate = removedDate;
+    }
+
+    public User getAddedByUser() {
+        return addedByUser;
+    }
+
+    public void setAddedByUser(User addedByUser) {
+        this.addedByUser = addedByUser;
     }
 }

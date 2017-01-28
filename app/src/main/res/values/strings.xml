@@ -12,6 +12,8 @@
     <string name="show_create_group">showCreateGroup</string>
     <string name="show_login">showLogin</string>
     <string name="is_edit_mode">isEditMode</string>
+    <string name="show_add_shopping_item">showAddShoppingItem</string>
+    <string name="group_id">groupId</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

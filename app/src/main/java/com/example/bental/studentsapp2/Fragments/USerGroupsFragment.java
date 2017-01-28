@@ -43,7 +43,9 @@ public class UserGroupsFragment extends Fragment {
                 new Model.GetGroupsForUserListener() {
                     @Override
                     public void onComplete(List<Group> groups) {
-                        listview.setAdapter(new GroupAdapter(getActivity().getApplicationContext(), (ArrayList)groups));
+                        if (getActivity()!=null) {
+                            listview.setAdapter(new GroupAdapter(getActivity().getApplicationContext(), (ArrayList)groups));
+                        }
                     }
                 });
 
