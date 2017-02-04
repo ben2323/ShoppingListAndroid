@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.example.bental.studentsapp2.Helper;
 import com.example.bental.studentsapp2.R;
 import com.example.bental.studentsapp2.model.Model;
 
@@ -35,7 +36,8 @@ public class JoinGroupFragment extends BaseFragment {
         btnJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               Model.instance().addUserToGroup(getCurrentUser().getUid(),etGroupKey.getText().toString());
+               Model.instance().addUserToGroup(Helper.getCurrentUser().getUid(),etGroupKey.getText().toString());
+                getActivity().onBackPressed();
             }
         });
         return view;

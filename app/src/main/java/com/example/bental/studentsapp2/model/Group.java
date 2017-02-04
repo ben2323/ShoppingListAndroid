@@ -1,15 +1,25 @@
 package com.example.bental.studentsapp2.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ben on 1/13/2017.
  */
 
-public class Group {
+public class Group implements Serializable{
     String groupId;
     String groupName;
     String groupImageUrl;
+    HashMap<String,ShoppingItem> shoppingItems;
+    public Group(){
+        this.groupImageUrl = "";
+        this.shoppingItems = new LinkedHashMap<String,ShoppingItem>();
+    }
 
     public String getGroupId() {
         return groupId;
@@ -27,6 +37,14 @@ public class Group {
         this.groupName = groupName;
     }
 
+    public HashMap<String,ShoppingItem> getShoppingItems() {
+        return shoppingItems;
+    }
+
+    public void setShoppingItems(HashMap<String,ShoppingItem> shoppingItems) {
+        this.shoppingItems = shoppingItems;
+    }
+
 /*
     public String getGroupKey() {
         return groupKey;
@@ -36,13 +54,13 @@ public class Group {
 /*    public void setGroupKey(String groupKey) {
         this.groupKey = groupKey;
     }
-
+*/
     public String getGroupImageUrl() {
         return groupImageUrl;
     }
 
     public void setGroupImageUrl(String groupImageUrl) {
         this.groupImageUrl = groupImageUrl;
-    }*/
+    }
 
 }

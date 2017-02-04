@@ -19,9 +19,6 @@ public class FirebaseHelper {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
-    public FirebaseUser getCurrentUser(){
-        return FirebaseAuth.getInstance().getCurrentUser();
-    }
     public void createUser(String email, String password){
 /*        mAuth.createUserWithEmailAndPassword(email, etPassword.getText().toString())
                 .addOnCompleteListener(getClass(), new OnCompleteListener<AuthResult>() {

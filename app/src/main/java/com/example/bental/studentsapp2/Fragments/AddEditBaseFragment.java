@@ -1,7 +1,10 @@
 package com.example.bental.studentsapp2.Fragments;
 
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,45 +12,48 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.bental.studentsapp2.DialogCreator;
+import com.example.bental.studentsapp2.Helper;
 import com.example.bental.studentsapp2.R;
 import com.example.bental.studentsapp2.model.Model;
 import com.example.bental.studentsapp2.model.ShoppingItem;
-import com.example.bental.studentsapp2.model.Student;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.io.File;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddEditFragment extends BaseFragment {
+public abstract class AddEditBaseFragment extends BaseFragment {
     String groupId;
-
     EditText etName;
     EditText etQuantity;
+    ImageView btnSave;
+    ImageView btnCancel;
+    ImageView ivProductImage;
+    View view;
+    Fragment fragment = this;
+    String pictureName = "";
+    // LayoutInflater inflater;
 
-    Student currentStudent;
-
-
-    public AddEditFragment() {
+    public AddEditBaseFragment() {
         // Required empty public constructor
     }
 
+    abstract public void onSave(ShoppingItem item);
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_add_edit, container, false);
-
-
-        ImageView btnSave = (ImageView) view.findViewById(R.id.btnAdd);
-        ImageView btnCancel = (ImageView) view.findViewById(R.id.btnCancel);
-
-
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_add_edit, container, false);
+        //this.inflater
+        btnSave = (ImageView) view.findViewById(R.id.btnAdd);
+        btnCancel = (ImageView) view.findViewById(R.id.btnCancel);
         etQuantity = (EditText) view.findViewById(R.id.etQuantity);
         etName = (EditText) view.findViewById(R.id.etPasswordConfirm);
-
+        ivProductImage = (ImageView) view.findViewById(R.id.btnAddPicture);
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,9 +61,10 @@ public class AddEditFragment extends BaseFragment {
                 item.setName(etName.getText().toString());
                 item.setQuantity(Integer.parseInt(etQuantity.getText().toString()));
                 item.setAddedByUserId(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                item.setAddedDate(getCurrentDate());
-                //item.setImageUrl();
-                Model.instance().addShoppingItem(item,groupId);
+                item.setAddedDate(Helper.getCurrentDate());
+                item.setImageUrl(pictureName);
+                //todo set image url
+                onSave(item);
                 getActivity().onBackPressed();
             }
         });
@@ -68,23 +75,65 @@ public class AddEditFragment extends BaseFragment {
                 getActivity().onBackPressed();
             }
         });
-/*        final int currentProductIndex = this.getArguments().getInt(getString(R.string.current_product_index));
-        if (currentProductIndex != -1) {//edit mode
-            getActivity().setTitle("Edit Student");
-            //prepareViewsForEditMode(currentProductIndex, btnDelete);
-        } else {//add mode
-            getActivity().setTitle("Add Student");
-            btnCancel.setVisibility(View.INVISIBLE);
-            //btnDelete.setVisibility(View.INVISIBLE);
-        }*/
+        ivProductImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+                final AlertDialog alertDialog = dialogBuilder.create();
+                alertDialog.setTitle("Select a Picture");
+                View dialogView = inflater.inflate(R.layout.image_picker_dialog, null);
+                alertDialog.setView(dialogView);
 
+                TextView tvFromCamera = (TextView) dialogView.findViewById(R.id.tvFromCamera);
+                TextView tvFromGallery = (TextView) dialogView.findViewById(R.id.tvFromGallery);
 
-        //onClick listeners
-
-
-
-
+                tvFromCamera.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        pictureName = Helper.capturePicture(etName.getText().toString(), view.getContext(), fragment, 1);
+                        alertDialog.dismiss();
+                    }
+                });
+                tvFromGallery.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Helper.capturePicture(etName.getText().toString(), view.getContext(), fragment, 2);
+                        alertDialog.dismiss();
+                    }
+                });
+                alertDialog.show();
+            }
+        });
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == -1) {
+            if (requestCode == 1) {
+                //image taken from camera
+            } else if (requestCode == 2) {
+                //image taken from gallery
+                String imagePath = data.getData().toString() + ".png";
+                //copying image from gallery to local app images path
+                Helper.copyFile(imagePath, view.getContext());
+            }
+
+            //uploading image to server
+            File file = Helper.getFile(pictureName, view.getContext());
+            Model.instance().uploadPicture(pictureName,
+                    Helper.getUriFromFile(file, view.getContext()),
+                    new Model.UploadFileListener() {
+                        @Override
+                        public void onComplete(Uri fileUrl) {
+                            Helper.setImageFromStorage(pictureName, view.getContext(), ivProductImage);
+                        }
+                    }
+            );
+        } else {
+            pictureName = "";
+        }
     }
 
     private void onSave(final int currentStudentIndex) {

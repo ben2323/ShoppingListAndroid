@@ -3,17 +3,21 @@ package com.example.bental.studentsapp2.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
+import com.example.bental.studentsapp2.MainActivity;
 import com.example.bental.studentsapp2.model.Student;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 /**
@@ -21,24 +25,26 @@ import java.util.ArrayList;
  */
 
 public abstract class CustomBaseAdapter<T> extends BaseAdapter {
+    private float x1, x2;
     protected static LayoutInflater inflater = null;
-    protected ArrayList<T> list;
+    protected HashMap<String,T> hashMap;
+    protected String[] keys = new String[]{};
     protected Context context;
-    public CustomBaseAdapter(Context context, ArrayList<T> list){
-        this.list = list;
+    public CustomBaseAdapter(Context context, HashMap<String,T> hashMap){
+        this.hashMap = hashMap;
         this.context = context;
+        this.keys = hashMap.keySet().toArray(new String[]{});
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
     }
 
     @Override
     public int getCount() {
-        return list.size();
+        return hashMap.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return list.get(i);
+        return hashMap.get(i);
     }
 
     @Override
@@ -47,6 +53,37 @@ public abstract class CustomBaseAdapter<T> extends BaseAdapter {
     }
 
     @Override
-
     abstract public View getView(int i, View view, ViewGroup viewGroup);
+
+    protected void setSwipeEvent(View view){
+        view.setOnTouchListener(
+                new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        // TODO Auto-generated method stub
+                        switch (event.getAction()) {
+                            case MotionEvent.ACTION_DOWN:
+                                x1 = event.getX();
+                                break;
+                            case MotionEvent.ACTION_UP:
+                                x2 = event.getX();
+                                float deltaX = x2 - x1;
+                                if (deltaX < 0) {
+                                    Toast.makeText(context,
+                                            "Right to Left swipe",
+                                            Toast.LENGTH_SHORT).show();
+                                }else if(deltaX >0){
+                                    Toast.makeText(context,
+                                            "Left to Right swipe",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                                break;
+                        }
+
+                        return false;
+                    }
+                });
+    }
+
+
 }

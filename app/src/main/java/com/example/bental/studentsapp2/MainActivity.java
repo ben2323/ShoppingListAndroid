@@ -7,31 +7,41 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.SystemClock;
+import android.provider.MediaStore;
+import android.util.Log;
 
 
-import com.example.bental.studentsapp2.Fragments.AddEditFragment;
+import com.example.bental.studentsapp2.Fragments.AddNewShoppingItemFragment;
 import com.example.bental.studentsapp2.Fragments.CreateNewGroupFragment;
-import com.example.bental.studentsapp2.Fragments.GroupListFragment;
+import com.example.bental.studentsapp2.Fragments.EditShoppingItemFragment;
 import com.example.bental.studentsapp2.Fragments.JoinGroupFragment;
 import com.example.bental.studentsapp2.Fragments.LoginFragment;
-import com.example.bental.studentsapp2.Fragments.ProductDetailsFragment;
 import com.example.bental.studentsapp2.Fragments.ProductListFragment;
 import com.example.bental.studentsapp2.Fragments.RegisterNewUserFragment;
 import com.example.bental.studentsapp2.Fragments.UserGroupsFragment;
+import com.example.bental.studentsapp2.model.Group;
 import com.example.bental.studentsapp2.model.Model;
-import com.example.bental.studentsapp2.model.ModelFirebase;
+import com.example.bental.studentsapp2.model.ShoppingItem;
+
+import java.io.File;
+import java.io.IOException;
 
 public class MainActivity extends Activity {
-private BroadcastReceiver mBroadcastReceiver;
-    private static String ADD_EDIT_PRODUCT = "addEditProductFragment";
-    //private static String EDIT_STUDENT = "editStudentFragment";
+    private BroadcastReceiver mBroadcastReceiver;
+    private static String ADD_PRODUCT = "addProductFragment";
+    private static String EDIT_PRODUCT = "editProductFragment";
     private static String PRODUCT_LIST = "productListFragment";
     private static String CREATE_NEW_GROUP = "createNewGrop";
     private static String REGISTER_NEW_USER = "registerNewUser";
     private static String LOGIN = "login";
     private static String USER_GROUPS = "userGroups";
     private static String JOIN_GROUP = "joinGroup";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,27 +67,53 @@ private BroadcastReceiver mBroadcastReceiver;
                     onShowAddUserToGroup();
                 } else if (intent.getAction().equals(getString(R.string.show_group))) {
                     onShowGroupProductList(intent);
-                }else if (intent.getAction().equals(getString(R.string.show_add_shopping_item))) {
+                } else if (intent.getAction().equals(getString(R.string.show_add_shopping_item))) {
                     onShowAddShoppingItem(intent);
+                } else if (intent.getAction().equals(getString(R.string.remove_item))) {
+                    onRemoveItem(intent);
+                } else if (intent.getAction().equals(getString(R.string.remove_user_from_group))) {
+                    onRemoveUserFromGroup(intent);
+                } else if (intent.getAction().equals(getString(R.string.show_edit_shopping_item))) {
+                    onShowEditShoppingItem(intent);
+                } else if (intent.getAction().equals(getString(R.string.show_capture_image_activity))) {
+                    onShowCapturePictureActivity(intent);
                 }
             }
         };
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(getString(R.string.show_group));
         intentFilter.addAction(getString(R.string.show_add_shopping_item));
-       // intentFilter.addAction(getString(R.string.show_add_student));
         intentFilter.addAction(getString(R.string.show_user_groups));
         intentFilter.addAction(getString(R.string.show_login));
         intentFilter.addAction(getString(R.string.show_register));
         intentFilter.addAction(getString(R.string.show_create_group));
+        intentFilter.addAction(getString(R.string.show_join_group));
+        intentFilter.addAction(getString(R.string.remove_user_from_group));
+        intentFilter.addAction(getString(R.string.remove_item));
+        intentFilter.addAction(getString(R.string.show_edit_shopping_item));
+        intentFilter.addAction(getString(R.string.show_capture_image_activity));
         this.registerReceiver(mBroadcastReceiver, intentFilter);
 
     }
+
+    private void onRemoveItem(Intent intent) {
+        String itemId = intent.getStringExtra(getString(R.string.item_id));
+        String groupId = intent.getStringExtra(getString(R.string.group_id));
+        Model.instance().removeShoppingItemByGroupId(groupId, itemId);
+    }
+
+    private void onRemoveUserFromGroup(Intent intent) {
+        String userId = intent.getStringExtra(getString(R.string.user_id));
+        String groupId = intent.getStringExtra(getString(R.string.group_id));
+        Model.instance().removeGroupByUserId(userId, groupId);
+    }
+
     private void onShowAddUserToGroup() {
         FragmentManager fm = getFragmentManager();
         JoinGroupFragment fragment = new JoinGroupFragment();
         FragmentTransaction ftr = getFragmentManager().beginTransaction();
         ftr.replace(R.id.mainContainer, fragment, LOGIN);
+        ftr.addToBackStack(null);
         ftr.commit();
     }
 
@@ -91,8 +127,8 @@ private BroadcastReceiver mBroadcastReceiver;
     }
 
     private void onShowUserGroups() {
+        setTitle("My Groups");
         FragmentManager fm = getFragmentManager();
-
         UserGroupsFragment fragment = new UserGroupsFragment();
         FragmentTransaction ftr = getFragmentManager().beginTransaction();
         ftr.replace(R.id.mainContainer, fragment, USER_GROUPS);
@@ -103,7 +139,7 @@ private BroadcastReceiver mBroadcastReceiver;
     private void onShowCreateNewGroup() {
         FragmentManager fm = getFragmentManager();
 
-        for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+        for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
             //clear all fragments from stack so the last fragment on stack will be the student list
             //we do that so when pressing the back button application will end
             fm.popBackStack();
@@ -117,7 +153,7 @@ private BroadcastReceiver mBroadcastReceiver;
     private void onShowRegisterNewUser() {
         FragmentManager fm = getFragmentManager();
 
-        for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+        for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
             //clear all fragments from stack so the last fragment on stack will be the student list
             //we do that so when pressing the back button application will end
             fm.popBackStack();
@@ -130,9 +166,13 @@ private BroadcastReceiver mBroadcastReceiver;
     }
 
     private void onShowGroupProductList(Intent intent) {
+
+        //todo get the whole group object and show the name of the group in the title
         ProductListFragment fragment = new ProductListFragment();
-        String groupId = intent.getStringExtra(getString(R.string.group_id));
-        fragment.setGroupId(groupId);
+        Group group = (Group) intent
+                .getSerializableExtra(getString(R.string.shopping_items));
+        setTitle("My Shopping List - " + group.getGroupName());
+        fragment.setCurrentGroup(group);
         FragmentTransaction ftr = getFragmentManager().beginTransaction();
         ftr.replace(R.id.mainContainer, fragment, PRODUCT_LIST);
         ftr.addToBackStack(null);
@@ -155,11 +195,25 @@ private BroadcastReceiver mBroadcastReceiver;
     }
 
     private void onShowAddShoppingItem(Intent intent) {
-        AddEditFragment fragment = new AddEditFragment();
+        AddNewShoppingItemFragment fragment = new AddNewShoppingItemFragment();
         String groupId = intent.getStringExtra(getString(R.string.group_id));
         fragment.setGroupId(groupId);
         FragmentTransaction ftr = getFragmentManager().beginTransaction();
-        ftr.replace(R.id.mainContainer, fragment, ADD_EDIT_PRODUCT);
+        ftr.replace(R.id.mainContainer, fragment, ADD_PRODUCT);
+        ftr.addToBackStack(null);
+        ftr.commit();
+    }
+
+    private void onShowEditShoppingItem(Intent intent) {
+        setTitle("Edit");
+        EditShoppingItemFragment fragment = new EditShoppingItemFragment();
+        String groupId = intent.getStringExtra(getString(R.string.group_id));
+        ShoppingItem shoppingItem = (ShoppingItem) intent
+                .getSerializableExtra(getString(R.string.current_item));
+        fragment.setCurrentShoppingItem(shoppingItem);
+        fragment.setGroupId(groupId);
+        FragmentTransaction ftr = getFragmentManager().beginTransaction();
+        ftr.replace(R.id.mainContainer, fragment, EDIT_PRODUCT);
         ftr.addToBackStack(null);
         ftr.commit();
     }
@@ -174,6 +228,24 @@ private BroadcastReceiver mBroadcastReceiver;
         ftr.addToBackStack(null);
         ftr.commit();*/
     }
+
+    private void onShowCapturePictureActivity(Intent intent) {
+        Intent intent2 = new Intent(this, CameraActivity.class);
+        intent2.putExtra("pictureName", intent.getStringExtra("pictureName"));
+
+        startActivity(intent2);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            // Helper.setImageFromStorage(picturePath,this);
+            Log.d("CameraDemo", "Pic saved");
+            onBackPressed();
+        }
+    }
+
 
     @Override
     protected void onDestroy() {

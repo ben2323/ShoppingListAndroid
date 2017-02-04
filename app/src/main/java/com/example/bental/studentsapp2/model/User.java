@@ -1,12 +1,13 @@
 package com.example.bental.studentsapp2.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by ben on 1/13/2017.
  */
 
-public class User {
+public class User implements Serializable{
     String userId;
     String firstName;
     String lastName;

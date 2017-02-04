@@ -22,17 +22,16 @@ import com.example.bental.studentsapp2.model.ShoppingItem;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProductListFragment extends Fragment {
-
-    List<ShoppingItem> shoppingList;
-    String groupId;
-
-
+public class ProductListFragment extends BaseFragment {
+    View _rootView;
+    Group currentGroup;
     public ProductListFragment() {
         // Required empty public constructor
     }
@@ -41,21 +40,23 @@ public class ProductListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_product_list, container, false);
-        final ListView listview = (ListView) view.findViewById(R.id.shopping_items_list);
-
-        Model.instance().getShoppingItemsByGroupId(groupId, new Model.GetShoppingItemsByGroupIdListener() {
-            @Override
-            public void onComplete(List<ShoppingItem> shoppingItems) {
-                listview.setAdapter(new ShoppingItemAdapter(getActivity().getApplicationContext(), (ArrayList) shoppingItems));
-            }
-        });
-        setHasOptionsMenu(true);
-        return view;
+        if (_rootView == null) {
+            _rootView = inflater.inflate(R.layout.fragment_product_list, container, false);
+            final ListView listview = (ListView) _rootView.findViewById(R.id.shopping_items_list);
+            Model.instance().getShoppingItemsByGroupId(currentGroup.getGroupId(), new Model.GetShoppingItemsByGroupIdListener() {
+                @Override
+                public void onComplete(HashMap<String, ShoppingItem> shoppingItems) {
+                    listview.setAdapter(new ShoppingItemAdapter(getActivity().getApplicationContext(),
+                            shoppingItems, currentGroup.getGroupId()));
+                }
+            });
+            setHasOptionsMenu(true);
+        }
+        return _rootView;
     }
 
     @Override
-    public void  onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.main_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -65,27 +66,16 @@ public class ProductListFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.btnAdd:
                 Intent intent = new Intent(getActivity().getString(R.string.show_add_shopping_item));
-                intent.putExtra(getString(R.string.group_id),groupId);
+                intent.putExtra(getString(R.string.group_id), currentGroup.getGroupId());
                 getActivity().sendBroadcast(intent);
                 break;
         }
         return true;
     }
 
-    public String getGroupId() {
-        return groupId;
+    public void setCurrentGroup(Group group) {
+        this.currentGroup = group;
     }
 
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
-    }
-
-    public List<ShoppingItem> getShoppingList() {
-        return shoppingList;
-    }
-
-    public void setShoppingList(List<ShoppingItem> shoppingList) {
-        this.shoppingList = shoppingList;
-    }
 
 }

@@ -8,7 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context="com.example.bental.studentsapp2.Fragments.AddEditFragment">
+    tools:context="com.example.bental.studentsapp2.Fragments.AddEditBaseFragment">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -56,22 +56,27 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="284dp"
+        android:layout_height="276dp"
         android:gravity="center"
-        android:weightSum="1"
-        android:id="@+id/btnAddPicture">
+        android:weightSum="1">
 
 <!--        <ImageView
             android:src="@drawable/ic_camera_black_48dp"
             android:layout_width="172dp"
             android:layout_height="78dp"
             android:id="@+id/imageView" />-->
-        <ImageView
-            android:src="@drawable/camera"
-            android:layout_width="wrap_content"
-            android:layout_height="189dp"
-            android:id="@+id/imageView8"
-            android:layout_weight="0.30" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="152dp">
+
+            <ImageView
+                android:src="@drawable/camera"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/btnAddPicture"
+                android:layout_weight="0.30" />
+        </FrameLayout>
+
     </LinearLayout>
 
     <!--date of birth-->

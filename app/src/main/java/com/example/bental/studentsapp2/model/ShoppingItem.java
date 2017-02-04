@@ -1,26 +1,26 @@
 package com.example.bental.studentsapp2.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by ben on 1/13/2017.
  */
 
-public class ShoppingItem {
+public class ShoppingItem implements Serializable{
     String itemId;
     String name;
     int quantity;
     String imageUrl;
     String addedByUserId;
     User addedByUser;
-
-
-
     String removedBy;
-    RemoveReasons removeReason;
     String addedDate;
     String removedDate;
 
+    public ShoppingItem(){
+        imageUrl = "";
+    }
     public String getItemId() {
         return itemId;
     }
@@ -63,18 +63,6 @@ public class ShoppingItem {
 
     public String getRemovedBy() {
         return removedBy;
-    }
-
-    public void setRemovedBy(String removedBy) {
-        this.removedBy = removedBy;
-    }
-
-    public RemoveReasons getRemoveReason() {
-        return removeReason;
-    }
-
-    public void setRemoveReason(RemoveReasons removeReason) {
-        this.removeReason = removeReason;
     }
 
     public String getAddedDate() {

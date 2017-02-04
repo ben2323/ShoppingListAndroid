@@ -69,6 +69,8 @@ public class LoginFragment extends Fragment {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     //todo redirect to main screen
+                                    Intent intent = new Intent(getActivity().getString(R.string.show_user_groups));
+                                    getActivity().sendBroadcast(intent);
                                 }
                             }
                         });
