@@ -18,16 +18,44 @@
             android:layout_height="wrap_content"
             android:id="@+id/textView"
             android:layout_weight="1"
-            android:labelFor="@+id/etPasswordConfirm" />
+            android:labelFor="@+id/etGroupName" />
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="10"
-            android:id="@+id/etPasswordConfirm"
+            android:id="@+id/etGroupName"
             android:layout_weight="1" />
     </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="419dp"
+        android:gravity="center"
+        android:weightSum="1">
+
+        <!--        <ImageView
+                    android:src="@drawable/ic_camera_black_48dp"
+                    android:layout_width="172dp"
+                    android:layout_height="78dp"
+                    android:id="@+id/imageView" />-->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="152dp">
+
+            <ImageView
+                android:src="@drawable/camera"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/btnAddPicture"
+                android:layout_weight="1"
+                android:contextClickable="true" />
+        </FrameLayout>
+
+    </LinearLayout>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"

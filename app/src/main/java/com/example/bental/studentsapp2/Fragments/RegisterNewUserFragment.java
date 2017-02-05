@@ -25,7 +25,7 @@ import com.google.firebase.auth.FirebaseUser;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RegisterNewUserFragment extends Fragment {
+public class RegisterNewUserFragment extends BaseFragment {
     EditText etFirstName;
     EditText etLastName;
     EditText etEmail;
@@ -42,6 +42,7 @@ public class RegisterNewUserFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        super.onCreateView(inflater,container,savedInstanceState);
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_register_new_user, container, false);
         etFirstName = (EditText) view.findViewById(R.id.etFirstName);

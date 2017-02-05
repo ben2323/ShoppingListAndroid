@@ -22,6 +22,7 @@ public class EditShoppingItemFragment extends AddEditBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = super.onCreateView(inflater, container, savedInstanceState);
+        tvTitle.setText("Update");
         pictureName = currentShoppingItem.getImageUrl();
         etName.setText(currentShoppingItem.getName());
         etQuantity.setText(String.valueOf(currentShoppingItem.getQuantity()));

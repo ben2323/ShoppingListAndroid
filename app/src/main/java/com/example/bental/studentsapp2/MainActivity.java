@@ -14,6 +14,10 @@ import android.os.Environment;
 import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 
 import com.example.bental.studentsapp2.Fragments.AddNewShoppingItemFragment;
@@ -27,6 +31,9 @@ import com.example.bental.studentsapp2.Fragments.UserGroupsFragment;
 import com.example.bental.studentsapp2.model.Group;
 import com.example.bental.studentsapp2.model.Model;
 import com.example.bental.studentsapp2.model.ShoppingItem;
+import com.google.firebase.auth.FirebaseAuth;
+
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,12 +48,23 @@ public class MainActivity extends Activity {
     private static String LOGIN = "login";
     private static String USER_GROUPS = "userGroups";
     private static String JOIN_GROUP = "joinGroup";
-
+    LinearLayout linearTopBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+        final TextView tvTitle = (TextView)findViewById(R.id.tvTitle);
+        final ImageView ivLogout = (ImageView)findViewById(R.id.ivLogout);
+        linearTopBar = (LinearLayout)findViewById(R.id.linearTopBar);
+        ivLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                linearTopBar.setVisibility(View.INVISIBLE);
+                onShowLogin();
+            }
+        });
         onShowUserGroups();
 
 
@@ -127,7 +145,7 @@ public class MainActivity extends Activity {
     }
 
     private void onShowUserGroups() {
-        setTitle("My Groups");
+        linearTopBar.setVisibility(View.VISIBLE);
         FragmentManager fm = getFragmentManager();
         UserGroupsFragment fragment = new UserGroupsFragment();
         FragmentTransaction ftr = getFragmentManager().beginTransaction();
@@ -138,29 +156,20 @@ public class MainActivity extends Activity {
 
     private void onShowCreateNewGroup() {
         FragmentManager fm = getFragmentManager();
-
-        for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
-            //clear all fragments from stack so the last fragment on stack will be the student list
-            //we do that so when pressing the back button application will end
-            fm.popBackStack();
-        }
         CreateNewGroupFragment fragment = new CreateNewGroupFragment();
         FragmentTransaction ftr = getFragmentManager().beginTransaction();
         ftr.replace(R.id.mainContainer, fragment, CREATE_NEW_GROUP);
+        ftr.addToBackStack(null);
         ftr.commit();
     }
 
     private void onShowRegisterNewUser() {
         FragmentManager fm = getFragmentManager();
 
-        for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
-            //clear all fragments from stack so the last fragment on stack will be the student list
-            //we do that so when pressing the back button application will end
-            fm.popBackStack();
-        }
         RegisterNewUserFragment fragment = new RegisterNewUserFragment();
         FragmentTransaction ftr = getFragmentManager().beginTransaction();
         ftr.replace(R.id.mainContainer, fragment, REGISTER_NEW_USER);
+        ftr.addToBackStack(null);
         ftr.commit();
 
     }

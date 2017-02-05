@@ -28,7 +28,7 @@ import java.util.Date;
  * A simple {@link Fragment} subclass.
  */
 public class BaseFragment extends Fragment {
-
+    protected TextView tvTitle;
 
     public BaseFragment() {
         // Required empty public constructor
@@ -38,7 +38,7 @@ public class BaseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+         tvTitle = (TextView)getActivity().findViewById(R.id.tvTitle);
         TextView textView = new TextView(getActivity());
         textView.setText(R.string.hello_blank_fragment);
         return textView;

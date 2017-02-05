@@ -48,7 +48,7 @@ public abstract class AddEditBaseFragment extends BaseFragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_add_edit, container, false);
-        //this.inflater
+        super.onCreateView(inflater,container,savedInstanceState);
         btnSave = (ImageView) view.findViewById(R.id.btnAdd);
         btnCancel = (ImageView) view.findViewById(R.id.btnCancel);
         etQuantity = (EditText) view.findViewById(R.id.etQuantity);

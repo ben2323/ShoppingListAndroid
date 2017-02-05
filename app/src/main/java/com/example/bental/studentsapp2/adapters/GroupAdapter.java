@@ -31,7 +31,7 @@ public class GroupAdapter extends CustomBaseAdapter<Group> {
         }
         super.setSwipeEvent(vi);
         TextView groupName = (TextView) vi.findViewById(R.id.groupName);
-        ImageView groupImage = (ImageView) vi.findViewById(R.id.groupImage);
+        //ImageView groupImage = (ImageView) vi.findViewById(R.id.groupImage);
         ImageView deleteItem = (ImageView) vi.findViewById(R.id.deleteItem);
         deleteItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,7 +44,7 @@ public class GroupAdapter extends CustomBaseAdapter<Group> {
             }
         });
         groupName.setText(hashMap.get(keys[index]).getGroupName());
-        Helper.setImageFromStorage(hashMap.get(keys[index]).getGroupImageUrl(), context, groupImage);
+        //Helper.setImageFromStorage(hashMap.get(keys[index]).getGroupImageUrl(), context, groupImage);
 
         vi.setOnClickListener(new View.OnClickListener() {
             @Override

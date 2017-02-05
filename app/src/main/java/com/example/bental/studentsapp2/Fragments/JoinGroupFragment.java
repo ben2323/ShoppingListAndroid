@@ -27,6 +27,8 @@ public class JoinGroupFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        super.onCreateView(inflater,container,savedInstanceState);
+        tvTitle.setText("Join Group");
         View view = inflater.inflate(R.layout.fragment_join_group, container, false);
 
         final EditText etGroupKey = (EditText) view.findViewById(R.id.etGroupKey);

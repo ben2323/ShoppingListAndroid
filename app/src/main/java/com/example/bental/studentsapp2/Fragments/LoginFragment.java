@@ -1,6 +1,7 @@
 package com.example.bental.studentsapp2.Fragments;
 
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bental.studentsapp2.MainActivity;
@@ -30,6 +32,7 @@ public class LoginFragment extends Fragment {
     EditText etPassword;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private Activity activity;
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -40,9 +43,19 @@ public class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
+        activity = getActivity();
         etEmail = (EditText) view.findViewById(R.id.etEmail);
         etPassword = (EditText) view.findViewById(R.id.etPassword);
         Button btnLogin = (Button) view.findViewById(R.id.btnLogin);
+        TextView tvRegister = (TextView) view.findViewById(R.id.tvRegister);
+        tvRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity.getString(R.string.show_register));
+                activity.sendBroadcast(intent);
+            }
+        });
+
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -68,9 +81,9 @@ public class LoginFragment extends Fragment {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    //todo redirect to main screen
-                                    Intent intent = new Intent(getActivity().getString(R.string.show_user_groups));
-                                    getActivity().sendBroadcast(intent);
+                                    //redirect to main screen
+                                    Intent intent = new Intent(activity.getString(R.string.show_user_groups));
+                                    activity.sendBroadcast(intent);
                                 }
                             }
                         });

@@ -40,6 +40,8 @@ public class ProductListFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        super.onCreateView(inflater,container,savedInstanceState);
+        tvTitle.setText("My Product List - " + currentGroup.getGroupName());
         if (_rootView == null) {
             _rootView = inflater.inflate(R.layout.fragment_product_list, container, false);
             final ListView listview = (ListView) _rootView.findViewById(R.id.shopping_items_list);
