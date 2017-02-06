@@ -53,9 +53,9 @@ public class Model {
         modelFirebase.addNewUser(user);
     }
 
-    public void createNewGroup(Group group) {
+    public void createNewGroup(Group group, String userId) {
         //modelSql.addStudent(student);
-        modelFirebase.addNewGroup(group);
+        modelFirebase.addNewGroup(group, userId);
     }
 
     public void removeShoppingItemByGroupId(String groupId, String itemId) {

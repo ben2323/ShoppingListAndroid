@@ -13,7 +13,17 @@ import java.util.Map;
 
 public class Group implements Serializable{
     String groupId;
+    String key;
     String groupName;
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
     String groupImageUrl;
     HashMap<String,ShoppingItem> shoppingItems;
     public Group(){

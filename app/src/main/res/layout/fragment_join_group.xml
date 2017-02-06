@@ -3,47 +3,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.bental.studentsapp2.Fragments.JoinGroupFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center_vertical">
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:text="Group Key"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView2"
-            android:layout_weight="1" />
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/common_google_signin_btn_text_dark_disabled">
 
         <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:hint="Group Key"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/etGroupKey"
-            android:layout_weight="1"
-            android:inputType="text" />
+            android:background="@color/common_google_signin_btn_text_dark_default"
+            android:layout_marginBottom="1dp"
+            android:layout_margin="1dp"
+            android:paddingLeft="5dp" />
     </LinearLayout>
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="bottom">
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/common_google_signin_btn_text_dark_disabled">
 
-        <ImageView
-            android:src="@drawable/ic_cancel_red_24dp"
-            android:layout_width="wrap_content"
-            android:layout_height="54dp"
-            android:id="@+id/btnCancel"
-            android:layout_weight="1" />
-
-        <ImageView
-            android:src="@drawable/check_circle"
-            android:layout_width="wrap_content"
-            android:layout_height="54dp"
+        <Button
+            android:text="Join"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/btnOk"
-            android:layout_weight="1" />
+            android:background="?android:attr/colorFocusedHighlight"
+            android:gravity="center"
+            android:layout_margin="1dp"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 
 

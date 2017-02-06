@@ -143,10 +143,16 @@ public class ModelFirebase {
         registeredGroupsRef.setValue(true);
     }
 
-    public void addNewGroup(Group group) {
+    public void addNewGroup(Group group, String userId) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("groups");
-        myRef.push().setValue(group);
+        DatabaseReference myRef = database.getReference("groups").push();
+        String key = myRef.getKey();
+        myRef.setValue(group);
+
+
+        DatabaseReference userGroupsRef = database.getReference("users").child(userId)
+                .child("registerdGroups").child(key);
+        userGroupsRef.setValue(true);
     }
 
     public void addNewUser(User user) {

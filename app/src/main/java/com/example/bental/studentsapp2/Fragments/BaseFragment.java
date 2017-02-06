@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.bental.studentsapp2.Helper;
@@ -29,6 +30,7 @@ import java.util.Date;
  */
 public class BaseFragment extends Fragment {
     protected TextView tvTitle;
+    LinearLayout linearTopBar;
 
     public BaseFragment() {
         // Required empty public constructor
@@ -38,13 +40,12 @@ public class BaseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-         tvTitle = (TextView)getActivity().findViewById(R.id.tvTitle);
+        tvTitle = (TextView) getActivity().findViewById(R.id.tvTitle);
+        linearTopBar = (LinearLayout) getActivity().findViewById(R.id.linearTopBar);
         TextView textView = new TextView(getActivity());
         textView.setText(R.string.hello_blank_fragment);
         return textView;
     }
-
-
 
 
 }

@@ -54,14 +54,17 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+        linearTopBar = (LinearLayout)findViewById(R.id.linearTopBar);
+        linearTopBar.setVisibility(View.VISIBLE);
         final TextView tvTitle = (TextView)findViewById(R.id.tvTitle);
         final ImageView ivLogout = (ImageView)findViewById(R.id.ivLogout);
-        linearTopBar = (LinearLayout)findViewById(R.id.linearTopBar);
+
+
         ivLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
-                linearTopBar.setVisibility(View.INVISIBLE);
+
                 onShowLogin();
             }
         });

@@ -3,133 +3,151 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.bental.studentsapp2.Fragments.RegisterNewUserFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/colorPrimary"
+    android:paddingTop="15dp">
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/common_google_signin_btn_text_dark_disabled">
 
-        <TextView
-            android:text="First Name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView0"
-            android:layout_weight="1"
-            android:labelFor="@+id/etFirstName" />
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/etFirstName"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:hint="First Name"
+            android:background="@color/common_google_signin_btn_text_dark_default"
+            android:layout_marginBottom="1dp"
+            android:layout_margin="1dp"
+            android:paddingLeft="5dp"/>
     </LinearLayout>
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/common_google_signin_btn_text_dark_disabled">
 
-        <TextView
-            android:text="Last Name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView1"
-            android:layout_weight="1"
-            android:labelFor="@+id/etLastName" />
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/etLastName"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:hint="Last Name"
+            android:background="@color/common_google_signin_btn_text_dark_default"
+            android:layout_marginBottom="1dp"
+            android:layout_margin="1dp"
+            android:paddingLeft="5dp"/>
     </LinearLayout>
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/common_google_signin_btn_text_dark_disabled">
 
-        <TextView
-            android:text="Email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView2"
-            android:layout_weight="1"
-            android:labelFor="@+id/etEmail" />
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:id="@+id/etEmail"
             android:layout_weight="1"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:hint="Email"
+            android:background="@color/common_google_signin_btn_text_dark_default"
+            android:layout_marginBottom="1dp"
+            android:layout_margin="1dp"
+            android:paddingLeft="5dp"/>
     </LinearLayout>
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/common_google_signin_btn_text_dark_disabled">
 
-        <TextView
-            android:text="Password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView3"
-            android:layout_weight="1"
-            android:labelFor="@+id/etPassword" />
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/etPassword"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:hint="Password"
+            android:background="@color/common_google_signin_btn_text_dark_default"
+            android:layout_marginBottom="1dp"
+            android:layout_margin="1dp"
+            android:paddingLeft="5dp"/>
     </LinearLayout>
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+>
 
-        <TextView
-            android:text="Confirm Password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView"
-            android:layout_weight="1"
-            android:labelFor="@+id/etPasswordConfirm" />
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:id="@+id/etPasswordConfirm"
             android:layout_weight="1"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:hint="Confirm Password"
+            android:background="@android:color/white"
+            android:layout_marginBottom="1dp"
+            android:layout_margin="1dp"
+            android:paddingLeft="5dp"/>
     </LinearLayout>
+
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="bottom">
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/common_google_signin_btn_text_dark_disabled">
 
-        <ImageView
-            android:src="@drawable/ic_cancel_red_24dp"
-            android:layout_width="wrap_content"
-            android:layout_height="54dp"
-            android:id="@+id/btnCancel"
-            android:layout_weight="1" />
-
-        <ImageView
-            android:src="@drawable/check_circle"
-            android:layout_width="wrap_content"
-            android:layout_height="54dp"
+        <Button
+            android:text="Register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/btnCreate"
-            android:layout_weight="1" />
+            android:background="?android:attr/colorFocusedHighlight"
+            android:gravity="center"
+            android:layout_margin="1dp"
+            android:textColor="@color/common_google_signin_btn_text_dark_default" />
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvErrorMessage"
+        android:textColor="@android:color/holo_red_light"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:layout_marginTop="25dp"
+        android:padding="3dp" />
 
 </LinearLayout>

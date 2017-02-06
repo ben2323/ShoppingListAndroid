@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -32,8 +33,7 @@ public class JoinGroupFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_join_group, container, false);
 
         final EditText etGroupKey = (EditText) view.findViewById(R.id.etGroupKey);
-        ImageView btnJoin = (ImageView) view.findViewById(R.id.btnOk);
-        ImageView btnCancel = (ImageView) view.findViewById(R.id.btnCancel);
+        Button btnJoin = (Button) view.findViewById(R.id.btnOk);
 
         btnJoin.setOnClickListener(new View.OnClickListener() {
             @Override

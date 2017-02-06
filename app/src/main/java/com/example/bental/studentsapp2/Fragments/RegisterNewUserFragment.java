@@ -9,8 +9,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bental.studentsapp2.R;
@@ -22,6 +24,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import org.w3c.dom.Text;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -31,6 +35,7 @@ public class RegisterNewUserFragment extends BaseFragment {
     EditText etEmail;
     EditText etPassword;
     EditText etPasswordConfirm;
+    TextView tvErrorMessage;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -42,7 +47,9 @@ public class RegisterNewUserFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        super.onCreateView(inflater,container,savedInstanceState);
+        super.onCreateView(inflater, container, savedInstanceState);
+        linearTopBar.setVisibility(View.GONE);
+        // getActivity().findViewById()
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_register_new_user, container, false);
         etFirstName = (EditText) view.findViewById(R.id.etFirstName);
@@ -50,14 +57,26 @@ public class RegisterNewUserFragment extends BaseFragment {
         etEmail = (EditText) view.findViewById(R.id.etEmail);
         etPassword = (EditText) view.findViewById(R.id.etPassword);
         etPasswordConfirm = (EditText) view.findViewById(R.id.etPasswordConfirm);
+        tvErrorMessage = (TextView) view.findViewById(R.id.tvErrorMessage);
 
-        ImageView btnSave = (ImageView) view.findViewById(R.id.btnCreate);
-        ImageView btnCancel = (ImageView) view.findViewById(R.id.btnCancel);
+        Button btnSave = (Button) view.findViewById(R.id.btnCreate);
         mAuth = FirebaseAuth.getInstance();
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String errorMessage = validate(
+                        etFirstName.getText().toString(),
+                        etLastName.getText().toString(),
+                        etEmail.getText().toString(),
+                        etPassword.getText().toString(),
+                        etPasswordConfirm.getText().toString());
+                if (errorMessage!="") {
+                    tvErrorMessage.setText(errorMessage);
+                    return;
+                } else {
+                    tvErrorMessage.setText("");
+                }
                 final String email = etEmail.getText().toString();
                 final String password = etPassword.getText().toString();
                 mAuth.createUserWithEmailAndPassword(email, password)
@@ -97,4 +116,28 @@ public class RegisterNewUserFragment extends BaseFragment {
         return view;
     }
 
+    private String validate(String firstName, String lastName, String email, String password, String confirm){
+        if (firstName.isEmpty()) {
+            return "Please enter your first name.";
+        }
+        if (lastName.isEmpty()) {
+            return "Please enter your last name.";
+        }
+        if (email.isEmpty()) {
+            return "Please enter your email address.";
+        }
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            return "Please enter a valid email address.";
+        }
+        if (password.isEmpty()) {
+            return "Please enter a password.";
+        }
+        if (password.length()<6) {
+            return "Password must be at least 6 characters long.";
+        }
+        if (!password.equals(confirm)) {
+            return "Password does not match";
+        }
+        return "";
+    }
 }
