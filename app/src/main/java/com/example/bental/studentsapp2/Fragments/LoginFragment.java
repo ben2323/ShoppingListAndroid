@@ -16,8 +16,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bental.studentsapp2.Helper;
 import com.example.bental.studentsapp2.MainActivity;
 import com.example.bental.studentsapp2.R;
+import com.example.bental.studentsapp2.SpinnerDialog;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -33,6 +35,7 @@ public class LoginFragment extends BaseFragment {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private Activity activity;
+    Context context;
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -44,6 +47,7 @@ public class LoginFragment extends BaseFragment {
         super.onCreateView(inflater, container, savedInstanceState);
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
+        context = view.getContext();
         linearTopBar.setVisibility(View.GONE);
         activity = getActivity();
         etEmail = (EditText) view.findViewById(R.id.etEmail);
@@ -76,16 +80,28 @@ public class LoginFragment extends BaseFragment {
         };
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
+                final SpinnerDialog spinner = Helper.showLoader(getFragmentManager());
+                String errorMessage = validate(etEmail.getText().toString(), etPassword.getText().toString());
+                if (!errorMessage.isEmpty()) {
+                    Toast.makeText(context,errorMessage,Toast.LENGTH_LONG).show();
+                    return;
+                }
                 mAuth.signInWithEmailAndPassword(etEmail.getText().toString(), etPassword.getText().toString())
                         .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
+                                spinner.dismiss();
                                 if (task.isSuccessful()) {
                                     //redirect to main screen
                                     Intent intent = new Intent(activity.getString(R.string.show_user_groups));
                                     activity.sendBroadcast(intent);
+                                } else{
+                                    Toast.makeText(context,
+                                            "User does not exist or the password you entered is wrong.",
+                                            Toast.LENGTH_LONG).show();
                                 }
                             }
                         });
@@ -93,6 +109,16 @@ public class LoginFragment extends BaseFragment {
         });
         return view;
     }
+    private String validate(String email, String password){
+        if (email.isEmpty()) {
+            return "Please enter the email you registered with.";
+        }
+        if (password.isEmpty()) {
+            return "Please enter your password.";
+        }
+        return "";
+    }
+
     @Override
     public void onStart() {
         super.onStart();

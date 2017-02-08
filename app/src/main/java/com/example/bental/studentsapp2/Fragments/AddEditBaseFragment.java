@@ -13,10 +13,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.bental.studentsapp2.DialogCreator;
 import com.example.bental.studentsapp2.Helper;
 import com.example.bental.studentsapp2.R;
+import com.example.bental.studentsapp2.SpinnerDialog;
 import com.example.bental.studentsapp2.model.Model;
 import com.example.bental.studentsapp2.model.ShoppingItem;
 import com.google.firebase.auth.FirebaseAuth;
@@ -57,15 +58,23 @@ public abstract class AddEditBaseFragment extends BaseFragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ShoppingItem item = new ShoppingItem();
-                item.setName(etName.getText().toString());
-                item.setQuantity(Integer.parseInt(etQuantity.getText().toString()));
-                item.setAddedByUserId(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                item.setAddedDate(Helper.getCurrentDate());
-                item.setImageUrl(pictureName);
+
                 //todo set image url
-                onSave(item);
-                getActivity().onBackPressed();
+                String errorMessage = validate(etName.getText().toString(),
+                        etQuantity.getText().toString());
+                if (errorMessage=="") {
+                    ShoppingItem item = new ShoppingItem();
+                    item.setName(etName.getText().toString());
+                    item.setQuantity(Integer.parseInt(etQuantity.getText().toString()));
+                    item.setAddedByUserId(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    item.setAddedDate(Helper.getCurrentDate());
+                    item.setImageUrl(pictureName);
+                    onSave(item);
+                    getActivity().onBackPressed();
+                } else{
+                    Toast.makeText(view.getContext(), errorMessage, Toast.LENGTH_LONG).show();
+                }
+
             }
         });
 
@@ -121,6 +130,7 @@ public abstract class AddEditBaseFragment extends BaseFragment {
             }
 
             //uploading image to server
+            final SpinnerDialog spinner = Helper.showLoader(getFragmentManager());
             File file = Helper.getFile(pictureName, view.getContext());
             Model.instance().uploadPicture(pictureName,
                     Helper.getUriFromFile(file, view.getContext()),
@@ -128,6 +138,7 @@ public abstract class AddEditBaseFragment extends BaseFragment {
                         @Override
                         public void onComplete(Uri fileUrl) {
                             Helper.setImageFromStorage(pictureName, view.getContext(), ivProductImage);
+                            spinner.dismiss();
                         }
                     }
             );
@@ -136,106 +147,21 @@ public abstract class AddEditBaseFragment extends BaseFragment {
         }
     }
 
-    private void onSave(final int currentStudentIndex) {
-        String dialogMessage = "";
-        String dialogTitle = "";
-/*        ShoppingItem shoppingItem = new ShoppingItem(
-                etName.getText().toString(),
-                etQuantity.getText().toString(),
-                1,
-                tempBirthDate == null ? currentStudent.getBirthDate() : tempBirthDate,
-                tempBirthTime == null ? currentStudent.getBirthTime() : tempBirthTime
-        );*/
-        if (currentStudentIndex != -1) {
-            dialogMessage = "Student details were successfully updated.";
-            dialogTitle = "Edit Student";
-
-            //Model.instance().editStudent(currentStudentIndex, student);
-        } else {
-            dialogMessage = "Student was successfully added.";
-            dialogTitle = "Add Student";
-            //Model.instance().addStudent(student);
-        }
-
-        Runnable callback = new Runnable() {
-            public void run() {
-                //getActivity().sendBroadcast(new Intent(getString(R.string.show_student_list)));
-            }
-        };
-        DialogCreator.createDialog(getActivity(), dialogMessage, dialogTitle, callback);
-    }
-
-    private void prepareViewsForEditMode(int currentStudentIndex, Button btnDelete) {
-
-/*        currentStudent = Model.instance().getAllStudents().get(currentStudentIndex);
-        etName.setText(currentStudent.getName());*/
-        //etId.setText(String.valueOf(currentStudent.getId()));
-
-
-/*        btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Model.instance().deleteStudent(currentStudent);
-                Runnable callback = new Runnable() {
-                    public void run() {
-                      //  getActivity().sendBroadcast(new Intent(getString(R.string.show_student_list)));
-                    }
-                };
-                DialogCreator.createDialog(getActivity(), "Student was successfully deleted.", "Edit Student", callback);
-            }
-        });*/
-
-        //etBirthTime.setOnTouchListener(new View.OnTouchListener() {
-
-/*            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    if (tempBirthTime == null) {
-                        tempBirthTime = new CustomSimpleDate().createTime(currentStudent.getBirthTime().getHour(), currentStudent.getBirthTime().getMinute(), 0);
-                    }
-
-                    TimePickerDialog mTimePicker;
-                    mTimePicker = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
-                        @Override
-                        public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                            tempBirthTime = new CustomSimpleDate().createTime(selectedHour, selectedMinute, 0);
-                            etBirthTime.setText(tempBirthTime.toTimeString());
-                        }
-                    }, tempBirthTime.getHour(), tempBirthTime.getMinute(), true);
-                    mTimePicker.setTitle("Select Time");
-                    mTimePicker.show();
-                }
-                return true;
-            }
-        });*/
-
-/*        etBirthDate.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    DateDialogFragment dialog = new DateDialogFragment();
-                    if (tempBirthDate == null) {
-                        tempBirthDate = new CustomSimpleDate().createDate(currentStudent.getBirthDate().getYear(), currentStudent.getBirthDate().getMonth(), currentStudent.getBirthDate().getDay());
-                    }
-                    dialog.setOnDateSetListener(new DateDialogFragment.OnDateSetLisetener() {
-                        @Override
-                        public void onDateSet(int year, int monthOfYear, int dayOfMonth) {
-                            tempBirthDate = new CustomSimpleDate().createDate(year, monthOfYear + 1, dayOfMonth);
-                            etBirthDate.setText(tempBirthDate.toDateString());
-                        }
-                    }, tempBirthDate);
-                    dialog.show(getFragmentManager(), "TAG");
-                }
-                return true;
-            }
-        });*/
-    }
-
     public String getGroupId() {
         return groupId;
     }
 
     public void setGroupId(String groupId) {
         this.groupId = groupId;
+    }
+
+    private String validate(String name, String quantity){
+        if (name.isEmpty()) {
+            return "Please enter a product name.";
+        }
+        if (quantity.isEmpty()) {
+            return "Please enter quantity";
+        }
+        return "";
     }
 }

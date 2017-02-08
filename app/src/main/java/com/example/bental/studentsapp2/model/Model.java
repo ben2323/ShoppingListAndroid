@@ -1,5 +1,6 @@
 package com.example.bental.studentsapp2.model;
 
+import android.app.FragmentManager;
 import android.net.Uri;
 
 import com.example.bental.studentsapp2.*;
@@ -27,24 +28,26 @@ public class Model {
     }
 
     private ModelFirebase modelFirebase = new ModelFirebase();
+   // private ModelSql modelSql = new ModelSql();
 
     private Model() {
     }
 
     public void addShoppingItem(ShoppingItem shoppingItem, String groupId) {
         modelFirebase.addShoppingItem(shoppingItem, groupId);
+        //modelSql.addShoppingItem(shoppingItem, groupId);
     }
 
     public void editShoppingItem(ShoppingItem shoppingItem, String groupId) {
         modelFirebase.editShoppingItem(shoppingItem, groupId);
     }
 
-    public void getShoppingItemsByGroupId(String groupId, GetShoppingItemsByGroupIdListener listener) {
-        modelFirebase.getShoppingItemsByGroupId(groupId, listener);
+    public void getShoppingItemsByGroupId(FragmentManager fm, String groupId, GetShoppingItemsByGroupIdListener listener) {
+        modelFirebase.getShoppingItemsByGroupId(fm, groupId, listener);
     }
 
-    public void addUserToGroup(String userId, String groupId) {
-        modelFirebase.addUserToGroup(userId, groupId);
+    public void addUserToGroup(String userId, String groupId, AddUserToGroupListener listener) {
+        modelFirebase.addUserToGroup(userId, groupId, listener);
         //modelFirebase.addShoppingItem(shoppingItem, groupId);
     }
 
@@ -66,10 +69,12 @@ public class Model {
         modelFirebase.removeGroupByUserId(userId, groupId);
     }
 
-    public void getGroupsForUser(String userId, GetGroupsByUserIdListener listener) {
-        modelFirebase.getGroupsByUserId(userId, listener);
+    public void getGroupsForUser(FragmentManager fm, String userId, GetGroupsByUserIdListener listener) {
+        modelFirebase.getGroupsByUserId(fm, userId, listener);
     }
-
+    public void getUserByEmail(String email, final Model.GetUserByIdListener listener) {
+        modelFirebase.getUserByEmail(email,listener);
+    }
     public void getUserById(String userUid, final Model.GetUserByIdListener listener) {
         //modelFirebase.getUserById(userUid,listener);
     }
@@ -99,6 +104,10 @@ public class Model {
 
     public interface GetUserByIdListener {
         void onComplete(User user);
+    }
+
+    public interface AddUserToGroupListener {
+        void onComplete(Boolean success);
     }
 
 

@@ -59,12 +59,10 @@ public class MainActivity extends Activity {
         final TextView tvTitle = (TextView)findViewById(R.id.tvTitle);
         final ImageView ivLogout = (ImageView)findViewById(R.id.ivLogout);
 
-
         ivLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
-
                 onShowLogin();
             }
         });
@@ -183,7 +181,6 @@ public class MainActivity extends Activity {
         ProductListFragment fragment = new ProductListFragment();
         Group group = (Group) intent
                 .getSerializableExtra(getString(R.string.shopping_items));
-        setTitle("My Shopping List - " + group.getGroupName());
         fragment.setCurrentGroup(group);
         FragmentTransaction ftr = getFragmentManager().beginTransaction();
         ftr.replace(R.id.mainContainer, fragment, PRODUCT_LIST);
@@ -217,7 +214,6 @@ public class MainActivity extends Activity {
     }
 
     private void onShowEditShoppingItem(Intent intent) {
-        setTitle("Edit");
         EditShoppingItemFragment fragment = new EditShoppingItemFragment();
         String groupId = intent.getStringExtra(getString(R.string.group_id));
         ShoppingItem shoppingItem = (ShoppingItem) intent
@@ -242,10 +238,6 @@ public class MainActivity extends Activity {
     }
 
     private void onShowCapturePictureActivity(Intent intent) {
-        Intent intent2 = new Intent(this, CameraActivity.class);
-        intent2.putExtra("pictureName", intent.getStringExtra("pictureName"));
-
-        startActivity(intent2);
     }
 
     @Override

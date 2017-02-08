@@ -13,6 +13,7 @@
     <string name="show_login">showLogin</string>
     <string name="is_edit_mode">isEditMode</string>
     <string name="show_add_shopping_item">showAddShoppingItem</string>
+    <string name="show_invite_user">showInviteUser</string>
     <string name="show_edit_shopping_item">showEditShoppingItem</string>
     <string name="show_capture_image_activity">showCaptureImageActivity</string>
     <string name="group_id">groupId</string>

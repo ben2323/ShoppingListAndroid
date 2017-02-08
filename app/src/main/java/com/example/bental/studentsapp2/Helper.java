@@ -2,6 +2,7 @@ package com.example.bental.studentsapp2;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -130,6 +131,12 @@ public class Helper {
         } catch (IOException e) {
             return null;
         }
+    }
+
+    public static SpinnerDialog showLoader(FragmentManager fm) {
+        SpinnerDialog myInstance = new SpinnerDialog();
+        myInstance.show(fm, "some_tag");
+        return myInstance;
     }
 
     public static String capturePicture(String pictureName, Context context, Fragment f, int pictureMode) {

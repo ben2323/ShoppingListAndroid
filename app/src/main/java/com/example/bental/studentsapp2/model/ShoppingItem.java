@@ -14,9 +14,8 @@ public class ShoppingItem implements Serializable{
     String imageUrl;
     String addedByUserId;
     User addedByUser;
-    String removedBy;
     String addedDate;
-    String removedDate;
+
 
     public ShoppingItem(){
         imageUrl = "";
@@ -61,9 +60,6 @@ public class ShoppingItem implements Serializable{
         this.addedByUserId = addedByUserId;
     }
 
-    public String getRemovedBy() {
-        return removedBy;
-    }
 
     public String getAddedDate() {
         return addedDate;
@@ -71,14 +67,6 @@ public class ShoppingItem implements Serializable{
 
     public void setAddedDate(String addedDate) {
         this.addedDate = addedDate;
-    }
-
-    public String getRemovedDate() {
-        return removedDate;
-    }
-
-    public void setRemovedDate(String removedDate) {
-        this.removedDate = removedDate;
     }
 
     public User getAddedByUser() {

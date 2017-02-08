@@ -1,49 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:weightSum="1">
 
-    <ImageView
-        android:id="@+id/productImage"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp" />
-
-    <TextView
-        android:id="@+id/productName"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:textColor="#CC0033"
-        android:textSize="16dp"
-        android:text="GroupName"
-        android:layout_toEndOf="@+id/productImage"
-        android:layout_marginStart="59dp" />
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:text="AddedBy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/addedBy"
-        android:layout_below="@+id/productName"
-        android:layout_alignEnd="@+id/productName"
-        android:layout_marginEnd="15dp" />
+        <ImageView
+            android:id="@+id/productImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_weight="1" />
+    </LinearLayout>
 
-    <TextView
-        android:text="addedOnDate"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="247dp"
         android:layout_height="wrap_content"
-        android:id="@+id/addedOnDate"
-        android:layout_alignBottom="@+id/productImage"
-        android:layout_alignEnd="@+id/addedBy" />
+        android:layout_weight="1.30">
 
-    <ImageView
-        android:src="@android:drawable/ic_menu_delete"
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/productName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:textColor="#CC0033"
+                android:textSize="16dp"
+                android:text="GroupName"
+                android:layout_toEndOf="@+id/productImage"
+                android:layout_marginStart="59dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="AddedBy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/addedBy"
+                android:layout_below="@+id/productName"
+                android:layout_alignEnd="@+id/productName"
+                android:layout_marginEnd="15dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="addedOnDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/addedOnDate"
+                android:layout_alignBottom="@+id/productImage"
+                android:layout_alignEnd="@+id/addedBy"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/productName"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="15dp"
-        android:id="@+id/deleteItem" />
-</RelativeLayout>
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <ImageView
+            android:src="@android:drawable/ic_menu_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/productName"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="15dp"
+            android:id="@+id/deleteItem"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+</LinearLayout>

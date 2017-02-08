@@ -1,15 +1,20 @@
 package com.example.bental.studentsapp2.model;
 
+import android.app.FragmentManager;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.example.bental.studentsapp2.Helper;
+import com.example.bental.studentsapp2.SpinnerDialog;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,13 +39,30 @@ import java.util.List;
  */
 
 public class ModelFirebase {
-    public void getGroupsByUserId(final String userId, final Model.GetGroupsByUserIdListener listener) {
+    FragmentManager fm;
+
+
+    public void getGroupsByUserId(FragmentManager fm, final String userId, final Model.GetGroupsByUserIdListener listener) {
+
         final HashMap<String, Group> groups = new HashMap<String, Group>();
-        // List the names of all Mary's groups
+        final SpinnerDialog spinner = Helper.showLoader(fm);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference ref = database.getReference();
+        final DatabaseReference userGroupsref = ref.child("users/" + userId + "/registeredGroups");
+        userGroupsref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getChildrenCount()==0) {
+                    spinner.dismiss();
+                }
+            }
 
-        ref.child("users/" + userId + "/registeredGroups").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        userGroupsref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot snapshot, String previousChildKey) {
                 // for each group, fetch the name and print it
@@ -52,7 +74,7 @@ public class ModelFirebase {
                         group.setGroupId(groupKey);
                         boolean isNewItem = true;
                         groups.put(groupKey, group);
-
+                        spinner.dismiss();
                         listener.onComplete(groups);
                     }
 
@@ -70,7 +92,9 @@ public class ModelFirebase {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                groups.remove(dataSnapshot.getKey());
+                Log.d("ss", "ggg");
+                listener.onComplete(groups);
             }
 
             @Override
@@ -86,11 +110,25 @@ public class ModelFirebase {
 
     }
 
-    public void getShoppingItemsByGroupId(String groupId, final Model.GetShoppingItemsByGroupIdListener listener) {
+    public void getShoppingItemsByGroupId(FragmentManager fm, String groupId, final Model.GetShoppingItemsByGroupIdListener listener) {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference ref = database.getReference();
+        final DatabaseReference ref = database.getReference().child("shoppingItems/" + groupId);
+        final SpinnerDialog spinner = Helper.showLoader(fm);
         final HashMap<String, ShoppingItem> shoppingItemHashMap = new HashMap<>();
-        ref.child("shoppingItems/" + groupId).addChildEventListener(new ChildEventListener() {
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getChildrenCount()==0) {
+                    spinner.dismiss();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot snapshot, String previousChildKey) {
                 // for each group, fetch the name and print it
@@ -104,6 +142,7 @@ public class ModelFirebase {
                         shoppingItem.setAddedByUser(user);
                         shoppingItemHashMap.put(key, shoppingItem);
                         listener.onComplete(shoppingItemHashMap);
+                        spinner.dismiss();
                     }
                 });
             }
@@ -135,12 +174,27 @@ public class ModelFirebase {
         });
     }
 
-    public void addUserToGroup(final String userId, final String groupId) {
+    public void addUserToGroup(final String userId, final String groupId, final Model.AddUserToGroupListener listener) {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        //adds groupId node in the users node
-        DatabaseReference registeredGroupsRef = database.getReference("users").child(userId)
-                .child("registeredGroups").child(groupId);
-        registeredGroupsRef.setValue(true);
+        DatabaseReference groupsRef = database.getReference("groups").child(groupId);
+        groupsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    DatabaseReference registeredGroupsRef = database.getReference("users").child(userId)
+                            .child("registeredGroups").child(groupId);
+                    registeredGroupsRef.setValue(true);
+                    listener.onComplete(true);
+                } else {
+                    listener.onComplete(false);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void addNewGroup(Group group, String userId) {
@@ -151,14 +205,17 @@ public class ModelFirebase {
 
 
         DatabaseReference userGroupsRef = database.getReference("users").child(userId)
-                .child("registerdGroups").child(key);
+                .child("registeredGroups").child(key);
         userGroupsRef.setValue(true);
     }
 
     public void addNewUser(User user) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("users").child(user.getUserId());
+        DatabaseReference myRef = database.getReference("users").child(user.getEmail().replace(".",","));
         myRef.setValue(user);
+/*        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("users").child(user.getUserId());
+        myRef.setValue(user);*/
     }
 
     public void addShoppingItem(ShoppingItem shoppingItem, String groupId) {
@@ -212,6 +269,50 @@ public class ModelFirebase {
             }
         });
 
+    }
+
+    public void getUserByEmail(String email, final Model.GetUserByIdListener listener) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("users");
+        ref.orderByChild("email").equalTo(email).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                listener.onComplete(dataSnapshot.getValue(User.class));
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+/*        ref.orderByChild("email").equalTo(email).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listener.onComplete(dataSnapshot.getValue(User.class));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });*/
     }
 
     private void getUserById(String userUid, final Model.GetUserByIdListener listener) {

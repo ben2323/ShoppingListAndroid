@@ -47,7 +47,9 @@
                 android:gravity="left|center_vertical"
                 android:shadowDx="20"
                 android:shadowDy="20"
-                android:shadowColor="@color/common_google_signin_btn_text_dark_focused" />
+                android:shadowColor="@color/common_google_signin_btn_text_dark_focused"
+                android:ellipsize="end"
+                android:lines="1" />
         </LinearLayout>
     </LinearLayout>
 
@@ -55,6 +57,13 @@
         android:id="@+id/mainContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/loadingPanel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center" >
+
+        </RelativeLayout>
 
     </FrameLayout>
 

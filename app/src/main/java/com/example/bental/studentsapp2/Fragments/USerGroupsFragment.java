@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.bental.studentsapp2.Helper;
+import com.example.bental.studentsapp2.SpinnerDialog;
 import com.example.bental.studentsapp2.adapters.CustomBaseAdapter;
 import com.example.bental.studentsapp2.R;
 import com.example.bental.studentsapp2.adapters.GroupAdapter;
@@ -73,7 +74,8 @@ public class UserGroupsFragment extends BaseFragment {
                 }
             });
 
-            Model.instance().getGroupsForUser(FirebaseAuth.getInstance().getCurrentUser().getUid(),
+            Model.instance().getGroupsForUser(getFragmentManager(),
+                    FirebaseAuth.getInstance().getCurrentUser().getUid(),
                     new Model.GetGroupsByUserIdListener() {
                         @Override
                         public void onComplete(HashMap<String, Group> groups) {

@@ -15,7 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bental.studentsapp2.Helper;
 import com.example.bental.studentsapp2.R;
+import com.example.bental.studentsapp2.SpinnerDialog;
 import com.example.bental.studentsapp2.model.Model;
 import com.example.bental.studentsapp2.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -79,13 +81,15 @@ public class RegisterNewUserFragment extends BaseFragment {
                 }
                 final String email = etEmail.getText().toString();
                 final String password = etPassword.getText().toString();
+                final SpinnerDialog spinner = Helper.showLoader(getFragmentManager());
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (!task.isSuccessful()) {
-                                    Toast.makeText(getActivity(), "auth faild",
-                                            Toast.LENGTH_SHORT).show();
+                                    spinner.dismiss();
+                                    Toast.makeText(getActivity(), task.getException().getMessage(),
+                                            Toast.LENGTH_LONG).show();
                                 } else {
                                     //user was added in firebase auth service, add it now to users table
                                     final User newUser = new User();
@@ -103,6 +107,7 @@ public class RegisterNewUserFragment extends BaseFragment {
                                                         //send him to the user groups screen
                                                         Intent intent = new Intent(getActivity().getString(R.string.show_user_groups));
                                                         getActivity().sendBroadcast(intent);
+                                                        spinner.dismiss();
                                                     }
                                                 }
                                             });

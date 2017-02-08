@@ -15,6 +15,15 @@ public class Group implements Serializable{
     String groupId;
     String key;
     String groupName;
+    double lastUpdated;
+
+    public double getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(double lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
 
     public String getKey() {
         return key;

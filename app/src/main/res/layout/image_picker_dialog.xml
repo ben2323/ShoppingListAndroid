@@ -8,30 +8,38 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@color/common_google_signin_btn_text_dark_disabled">
+        android:divider="@color/common_google_signin_btn_text_dark_disabled"
+        android:padding="15dp">
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:src="@android:drawable/ic_menu_camera"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/imageView2"
-                android:layout_weight="1"
-                android:layout_width="wrap_content" />
+                android:layout_weight="1">
+
+                <ImageView
+                    android:src="@android:drawable/ic_menu_camera"
+                    android:layout_height="match_parent"
+                    android:id="@+id/imageView2"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent" />
+            </LinearLayout>
 
             <TextView
                 android:text="Camera"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvFromCamera"
                 android:layout_weight="1"
-                android:padding="15dp"
                 android:height="@android:dimen/app_icon_size"
                 android:textStyle="bold"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:gravity="left|center" />
         </LinearLayout>
 
     </LinearLayout>
@@ -40,29 +48,38 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="15dp"
-        android:divider="@color/common_google_signin_btn_text_dark_disabled">
+        android:divider="@color/common_google_signin_btn_text_dark_disabled"
+        android:padding="15dp">
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:weightSum="1">
+            android:layout_height="match_parent">
 
-            <ImageView
-                android:src="@android:drawable/ic_menu_gallery"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageView"
-                android:layout_weight="1.31" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:src="@android:drawable/ic_menu_gallery"
+                    android:layout_height="match_parent"
+                    android:id="@+id/imageView2"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent" />
+            </LinearLayout>
 
             <TextView
                 android:text="Gallery"
-                android:layout_width="223dp"
-                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/tvFromGallery"
+                android:layout_weight="1"
+                android:height="@android:dimen/app_icon_size"
                 android:textStyle="bold"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:layout_gravity="left|center" />
         </LinearLayout>
 
     </LinearLayout>

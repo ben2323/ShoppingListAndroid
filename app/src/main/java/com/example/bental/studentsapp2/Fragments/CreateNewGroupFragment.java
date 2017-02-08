@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bental.studentsapp2.Helper;
 import com.example.bental.studentsapp2.R;
@@ -40,13 +41,25 @@ public class CreateNewGroupFragment extends BaseFragment {
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Group group = new Group();
-                group.setGroupName(etGroupName.getText().toString());
-                Model.instance().createNewGroup(group, Helper.getCurrentUser().getUid());
-                getActivity().onBackPressed();
+                String errorMessage = validate(etGroupName.getText().toString());
+                if (errorMessage=="") {
+                    Group group = new Group();
+                    group.setGroupName(etGroupName.getText().toString());
+                    Model.instance().createNewGroup(group, Helper.getCurrentUser().getUid());
+                    getActivity().onBackPressed();
+                } else{
+                    Toast.makeText(view.getContext(),errorMessage, Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         // Inflate the layout for this fragment
         return view;
+    }
+    private String validate(String name){
+        if (name.isEmpty()) {
+            return "Please enter a group name.";
+        }
+        return "";
     }
 }
