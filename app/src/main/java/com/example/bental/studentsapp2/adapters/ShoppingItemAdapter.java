@@ -33,7 +33,6 @@ public class ShoppingItemAdapter extends CustomBaseAdapter<ShoppingItem> {
         if (vi == null) {
             vi = inflater.inflate(R.layout.product_list_item, null);
         }
-        super.setSwipeEvent(vi);
         TextView productName = (TextView) vi.findViewById(R.id.productName);
         TextView addOnDate = (TextView) vi.findViewById(R.id.addedOnDate);
         ImageView productImage = (ImageView) vi.findViewById(R.id.productImage);

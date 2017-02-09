@@ -15,7 +15,7 @@ import static android.R.attr.version;
 
 public class DatabaseHelper  extends SQLiteOpenHelper {
     DatabaseHelper(Context context) {
-        super(context, "datamodel.db", null, 200000000);
+        super(context, "datamodel.db", null, 200000001);
     }
 
     @Override
@@ -24,15 +24,15 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("CREATE TABLE groups (groupId  TEXT,  groupName  TEXT)");
         sqLiteDatabase.execSQL("CREATE TABLE shoppingItems (itemId  TEXT,  name  TEXT, Quantity  FLOAT," +
                 " addedDate TEXT,addedByUserId TEXT, imageUrl TEXT, groupId TEXT )");
-        sqLiteDatabase.execSQL("CREATE TABLE userGroups (groupId  TEXT,  groupName  TEXT)");
+        sqLiteDatabase.execSQL("CREATE TABLE userGroups (groupId  TEXT,  userId  TEXT)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-/*        sqLiteDatabase.execSQL("DROP TABLE users");
+        sqLiteDatabase.execSQL("DROP TABLE users");
         sqLiteDatabase.execSQL("DROP TABLE groups");
         sqLiteDatabase.execSQL("DROP TABLE shoppingItems");
-        sqLiteDatabase.execSQL("DROP TABLE userGroups");*/
+        sqLiteDatabase.execSQL("DROP TABLE userGroups");
         onCreate(sqLiteDatabase);
     }
 }

@@ -99,16 +99,16 @@ public class RegisterNewUserFragment extends BaseFragment {
                                     newUser.setUserId(task.getResult().getUser().getUid());
                                     Model.instance().addNewUser(newUser);
                                     //log the new user in
-                                    mAuth.signInWithEmailAndPassword(etEmail.getText().toString(), etPassword.getText().toString())
-                                            .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                                    if (task.isSuccessful()) {
-                                                        //send him to the user groups screen
-                                                        Intent intent = new Intent(getActivity().getString(R.string.show_user_groups));
-                                                        getActivity().sendBroadcast(intent);
-                                                        spinner.dismiss();
-                                                    }
+                                                    mAuth.signInWithEmailAndPassword(etEmail.getText().toString(), etPassword.getText().toString())
+                                                            .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                                                    if (task.isSuccessful()) {
+                                                                        //send him to the user groups screen
+                                                                        Intent intent = new Intent(getActivity().getString(R.string.show_user_groups));
+                                                                        getActivity().sendBroadcast(intent);
+                                                                        spinner.dismiss();
+                                                                    }
                                                 }
                                             });
                                 }

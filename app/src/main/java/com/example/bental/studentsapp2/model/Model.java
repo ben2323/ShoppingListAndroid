@@ -28,37 +28,39 @@ public class Model {
     }
 
     private ModelFirebase modelFirebase = new ModelFirebase();
-   // private ModelSql modelSql = new ModelSql();
+    private ModelSql modelSql = new ModelSql();
 
     private Model() {
     }
 
     public void addShoppingItem(ShoppingItem shoppingItem, String groupId) {
         modelFirebase.addShoppingItem(shoppingItem, groupId);
-        //modelSql.addShoppingItem(shoppingItem, groupId);
+        modelSql.addShoppingItem(shoppingItem, groupId);
     }
 
     public void editShoppingItem(ShoppingItem shoppingItem, String groupId) {
         modelFirebase.editShoppingItem(shoppingItem, groupId);
+        modelSql.editShoppingItem(shoppingItem,groupId);
     }
 
     public void getShoppingItemsByGroupId(FragmentManager fm, String groupId, GetShoppingItemsByGroupIdListener listener) {
         modelFirebase.getShoppingItemsByGroupId(fm, groupId, listener);
+        ArrayList<ShoppingItem> items = modelSql.getShoppingItemsByGroupId(groupId);
     }
 
     public void addUserToGroup(String userId, String groupId, AddUserToGroupListener listener) {
         modelFirebase.addUserToGroup(userId, groupId, listener);
-        //modelFirebase.addShoppingItem(shoppingItem, groupId);
+        modelSql.addUserToGroup(userId, groupId);
     }
 
     public void addNewUser(User user) {
-        //modelSql.addStudent(student);
         modelFirebase.addNewUser(user);
+        modelSql.addNewUser(user);
     }
 
     public void createNewGroup(Group group, String userId) {
-        //modelSql.addStudent(student);
         modelFirebase.addNewGroup(group, userId);
+        modelSql.addNewGroup(group, userId);
     }
 
     public void removeShoppingItemByGroupId(String groupId, String itemId) {
@@ -67,13 +69,16 @@ public class Model {
 
     public void removeGroupByUserId(String userId, String groupId) {
         modelFirebase.removeGroupByUserId(userId, groupId);
+        modelSql.addUserToGroup(userId,groupId);
     }
 
     public void getGroupsForUser(FragmentManager fm, String userId, GetGroupsByUserIdListener listener) {
         modelFirebase.getGroupsByUserId(fm, userId, listener);
+        modelSql.getGroupsByUserId(userId);
     }
     public void getUserByEmail(String email, final Model.GetUserByIdListener listener) {
-        modelFirebase.getUserByEmail(email,listener);
+        modelFirebase.getUserByEmail(email, listener);
+
     }
     public void getUserById(String userUid, final Model.GetUserByIdListener listener) {
         //modelFirebase.getUserById(userUid,listener);

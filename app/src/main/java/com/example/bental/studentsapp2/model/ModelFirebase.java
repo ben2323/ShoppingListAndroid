@@ -210,12 +210,12 @@ public class ModelFirebase {
     }
 
     public void addNewUser(User user) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("users").child(user.getEmail().replace(".",","));
-        myRef.setValue(user);
 /*        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("users").child(user.getUserId());
+        DatabaseReference myRef = database.getReference("users").child(user.getEmail().replace(".",","));
         myRef.setValue(user);*/
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("users").child(user.getUserId());
+        myRef.setValue(user);
     }
 
     public void addShoppingItem(ShoppingItem shoppingItem, String groupId) {

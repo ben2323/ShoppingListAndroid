@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.bental.studentsapp2.Fragments.JoinGroupFragment"
+    tools:context="com.example.bental.studentsapp2.Fragments.InviteFragment"
     android:orientation="vertical"
     android:gravity="center_vertical">
 
@@ -15,12 +15,12 @@
         android:background="@color/common_google_signin_btn_text_dark_disabled">
 
         <EditText
-            android:hint="Group Key"
+            android:hint="Email"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textPersonName"
             android:ems="10"
-            android:id="@+id/etGroupKey"
+            android:id="@+id/etUserEmail"
             android:background="@color/common_google_signin_btn_text_dark_default"
             android:layout_marginBottom="1dp"
             android:layout_margin="1dp"
@@ -37,7 +37,7 @@
         android:background="@color/common_google_signin_btn_text_dark_disabled">
 
         <Button
-            android:text="Join"
+            android:text="Invite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/btnOk"

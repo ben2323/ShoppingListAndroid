@@ -84,7 +84,7 @@ public class Helper {
 
     public static Uri getUriFromFile(File file, Context context) {
         return FileProvider.getUriForFile(context,
-                "com.example.android.fileprovider",
+                "com.example.bental.studentsapp2.fileprovider",
                 file);
     }
 
@@ -158,7 +158,7 @@ public class Helper {
             //take from gallery
         } else {
             Intent pickPhoto = new Intent(Intent.ACTION_PICK,
-                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    MediaStore.Images.Media.INTERNAL_CONTENT_URI);
             f.startActivityForResult(pickPhoto, 2);
             return "";
         }

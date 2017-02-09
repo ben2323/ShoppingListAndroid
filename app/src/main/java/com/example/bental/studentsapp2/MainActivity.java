@@ -7,12 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.SystemClock;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,7 +18,7 @@ import android.widget.TextView;
 import com.example.bental.studentsapp2.Fragments.AddNewShoppingItemFragment;
 import com.example.bental.studentsapp2.Fragments.CreateNewGroupFragment;
 import com.example.bental.studentsapp2.Fragments.EditShoppingItemFragment;
-import com.example.bental.studentsapp2.Fragments.JoinGroupFragment;
+import com.example.bental.studentsapp2.Fragments.InviteFragment;
 import com.example.bental.studentsapp2.Fragments.LoginFragment;
 import com.example.bental.studentsapp2.Fragments.ProductListFragment;
 import com.example.bental.studentsapp2.Fragments.RegisterNewUserFragment;
@@ -32,11 +27,6 @@ import com.example.bental.studentsapp2.model.Group;
 import com.example.bental.studentsapp2.model.Model;
 import com.example.bental.studentsapp2.model.ShoppingItem;
 import com.google.firebase.auth.FirebaseAuth;
-
-import org.w3c.dom.Text;
-
-import java.io.File;
-import java.io.IOException;
 
 public class MainActivity extends Activity {
     private BroadcastReceiver mBroadcastReceiver;
@@ -83,7 +73,7 @@ public class MainActivity extends Activity {
                 } else if (intent.getAction().equals(getString(R.string.show_create_group))) {
                     onShowCreateNewGroup();
                 } else if (intent.getAction().equals(getString(R.string.show_join_group))) {
-                    onShowAddUserToGroup();
+                    onShowAddUserToGroup(intent);
                 } else if (intent.getAction().equals(getString(R.string.show_group))) {
                     onShowGroupProductList(intent);
                 } else if (intent.getAction().equals(getString(R.string.show_add_shopping_item))) {
@@ -127,9 +117,12 @@ public class MainActivity extends Activity {
         Model.instance().removeGroupByUserId(userId, groupId);
     }
 
-    private void onShowAddUserToGroup() {
+    private void onShowAddUserToGroup(Intent intent) {
         FragmentManager fm = getFragmentManager();
-        JoinGroupFragment fragment = new JoinGroupFragment();
+        String groupId = intent.getStringExtra(getString(R.string.group_id));
+        InviteFragment fragment = new InviteFragment();
+        fragment.setGroupId(groupId);
+
         FragmentTransaction ftr = getFragmentManager().beginTransaction();
         ftr.replace(R.id.mainContainer, fragment, LOGIN);
         ftr.addToBackStack(null);

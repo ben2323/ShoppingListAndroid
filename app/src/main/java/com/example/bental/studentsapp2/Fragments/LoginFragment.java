@@ -75,7 +75,6 @@ public class LoginFragment extends BaseFragment {
                     // User is signed out
                     Log.d("aa", "onAuthStateChanged:signed_out");
                 }
-
             }
         };
 

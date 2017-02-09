@@ -55,16 +55,16 @@ public class UserGroupsFragment extends BaseFragment {
             _rootView = inflater.inflate(R.layout.fragment_group_list, container, false);
 
             final ListView listview = (ListView) _rootView.findViewById(R.id.listViewGroups);
-            Button btnJoinGroup = (Button) _rootView.findViewById(R.id.btnJoinGroup);
+            //Button btnJoinGroup = (Button) _rootView.findViewById(R.id.btnJoinGroup);
             Button btnCreateGroup = (Button) _rootView.findViewById(R.id.btnCreateGroup);
 
-            btnJoinGroup.setOnClickListener(new View.OnClickListener() {
+/*            btnJoinGroup.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(getActivity().getString(R.string.show_join_group));
                     getActivity().sendBroadcast(intent);
                 }
-            });
+            });*/
 
             btnCreateGroup.setOnClickListener(new View.OnClickListener() {
                 @Override

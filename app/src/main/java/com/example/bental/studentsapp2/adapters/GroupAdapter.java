@@ -29,7 +29,6 @@ public class GroupAdapter extends CustomBaseAdapter<Group> {
         if (vi == null) {
             vi = inflater.inflate(R.layout.group_list_item, null);
         }
-        super.setSwipeEvent(vi);
         TextView groupName = (TextView) vi.findViewById(R.id.groupName);
         //ImageView groupImage = (ImageView) vi.findViewById(R.id.groupImage);
         ImageView deleteItem = (ImageView) vi.findViewById(R.id.deleteItem);

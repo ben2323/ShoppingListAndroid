@@ -47,35 +47,4 @@ public abstract class CustomBaseAdapter<T> extends BaseAdapter {
     @Override
     abstract public View getView(int i, View view, ViewGroup viewGroup);
 
-    protected void setSwipeEvent(View view){
-        view.setOnTouchListener(
-                new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        // TODO Auto-generated method stub
-                        switch (event.getAction()) {
-                            case MotionEvent.ACTION_DOWN:
-                                x1 = event.getX();
-                                break;
-                            case MotionEvent.ACTION_UP:
-                                x2 = event.getX();
-                                float deltaX = x2 - x1;
-                                if (deltaX < 0) {
-                                    Toast.makeText(context,
-                                            "Right to Left swipe",
-                                            Toast.LENGTH_SHORT).show();
-                                }else if(deltaX >0){
-                                    Toast.makeText(context,
-                                            "Left to Right swipe",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                                break;
-                        }
-
-                        return false;
-                    }
-                });
-    }
-
-
 }

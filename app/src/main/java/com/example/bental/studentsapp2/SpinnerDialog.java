@@ -18,8 +18,8 @@ public class SpinnerDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(final Bundle savedInstanceState) {
         ProgressDialog _dialog = new ProgressDialog(getActivity());
-        this.setStyle(STYLE_NO_TITLE, getTheme()); // You can use styles or inflate a view
-        _dialog.setMessage("Loading.."); // set your messages if not inflated from XML
+        this.setStyle(STYLE_NO_TITLE, getTheme());
+        _dialog.setMessage("Loading..");
         _dialog.setCancelable(false);
 
         return _dialog;

@@ -25,8 +25,8 @@ public class ModelSql {
     }
 
     public ArrayList<Group> getGroupsByUserId(final String userId) {
-        String query = "SELECT g.groupId, groupName FROM userGroups ug" +
-                " INNER JOIN groups g ON ug.groupId = g.groupId WHERE ug.userId=?";
+        String query = "SELECT g.groupId, g.groupName FROM userGroups ug" +
+                " INNER JOIN groups g ON ug.groupId = g.groupId WHERE userId=?";
 
         Cursor cursor = dbReadable.rawQuery(query, new String[]{userId});
         ArrayList<Group> groups = new ArrayList<>();
@@ -120,7 +120,7 @@ public class ModelSql {
     }
 
     public void editShoppingItem(ShoppingItem shoppingItem, String groupId) {
-        ContentValues values = new ContentValues();
+/*        ContentValues values = new ContentValues();
         values.put("addedByUserId", shoppingItem.getAddedByUserId());
         values.put("addedDate", shoppingItem.getAddedDate());
         values.put("imageUrl", shoppingItem.getImageUrl());
@@ -129,7 +129,7 @@ public class ModelSql {
 
         long rowId = dbWritable.
                 update("shoppingItems", values, "itemId=?", new String[]{shoppingItem.getItemId()});
-        if (rowId <= 0) throw new SQLException("Failed to edit shopping item");
+        if (rowId <= 0) throw new SQLException("Failed to edit shopping item");*/
     }
 
     public void removeShoppingItemByGroupId(String groupId, String itemId) {

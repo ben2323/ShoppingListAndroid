@@ -21,10 +21,15 @@ import com.example.bental.studentsapp2.model.User;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class JoinGroupFragment extends BaseFragment {
+public class InviteFragment extends BaseFragment {
 
+    String groupId;
 
-    public JoinGroupFragment() {
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
+
+    public InviteFragment() {
         // Required empty public constructor
     }
 
@@ -32,26 +37,37 @@ public class JoinGroupFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        super.onCreateView(inflater,container,savedInstanceState);
-        tvTitle.setText("Join Group");
+        super.onCreateView(inflater, container, savedInstanceState);
+        tvTitle.setText("Invite a Friend");
         View view = inflater.inflate(R.layout.fragment_join_group, container, false);
 
-        final EditText etGroupKey = (EditText) view.findViewById(R.id.etGroupKey);
+        final EditText etEmail = (EditText) view.findViewById(R.id.etUserEmail);
         Button btnJoin = (Button) view.findViewById(R.id.btnOk);
 
         btnJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                Model.instance().getUserByEmail(etGroupKey.getText().toString(), new Model.GetUserByIdListener() {
+                String errorMessage = validate(etEmail.getText().toString());
+                if (!errorMessage.isEmpty()) {
+                    Toast.makeText(view.getContext(),
+                            errorMessage,Toast.LENGTH_LONG).show();
+                    return;
+                }
+                Model.instance().getUserByEmail(etEmail.getText().toString(), new Model.GetUserByIdListener() {
                     @Override
                     public void onComplete(User user) {
+                        if (user!=null) {
+                            Model.instance().addUserToGroup(user.getUserId(), groupId, new Model.AddUserToGroupListener() {
+                                @Override
+                                public void onComplete(Boolean success) {
+                                    getActivity().onBackPressed();
+                                }
+                            });
+                        } else {
 
+                        }
                     }
                 });
-
-
-
-
 /*               Model.instance().addUserToGroup(Helper.getCurrentUser().getUid(),
                        etGroupKey.getText().toString(), new Model.AddUserToGroupListener() {
                            @Override
@@ -70,4 +86,17 @@ public class JoinGroupFragment extends BaseFragment {
         return view;
     }
 
+    private String validate(String userEmail){
+        if (userEmail.equals(Helper.getCurrentUser().getEmail())) {
+            return "You cannot add yourself to a group you are already a member at.";
+        }
+        if (userEmail.isEmpty()) {
+            return "Please enter an email of a friend you woud like to invite.";
+        }
+
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()) {
+            return "Please enter a valid email address.";
+        }
+        return "";
+    }
 }
